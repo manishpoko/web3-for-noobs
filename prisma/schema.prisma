@@ -1,0 +1,48 @@
+//schema for prisma
+
+
+
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(uuid()) //primary key
+  email String @unique
+  name String
+  password String
+  posts Post[]
+}
+
+model Post {
+  id        String      @id @default(uuid()) //pk of posts
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String   @db.VarChar(1400)
+
+  authorId String //foreign key to link the Post to User. string because the author in (User) model is a string
+  author User @relation(fields:[authorId], references: [id])
+
+
+  categoryId String //new foreign key
+  category Category @relation(fields: [categoryId], references: [id]) //relationship field with model Category
+
+  content String 
+  slug String @unique
+}
+
+model Category {
+  id String @id @default(uuid()) 
+  name String
+  slug String @unique
+
+  posts Post[] //ensures it links with the fk in Post
+}
