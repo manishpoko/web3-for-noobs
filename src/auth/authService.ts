@@ -1,12 +1,11 @@
 
 
-
-
 import bcrypt, { compare } from "bcryptjs";
 import prisma from "../db/prisma";
 
 const saltRounds = 10;
 
+//first we hash the incoming user's password-
 export async function hashPassword (password: string): Promise <string> {
     //above, we have promise<string> to declare that a promise is expected of string datatype since it is async-await function (this is just type safety, remember it tho!)
 
@@ -17,6 +16,8 @@ export async function hashPassword (password: string): Promise <string> {
 
   return hashedPassword;
 }
+
+//this is the validation process of the user-
 
 export async function findUserByEmail(email: string): Promise <any> {
 
@@ -48,6 +49,9 @@ export async function comparePassword(plaintextPassword: string, hashedPassword:
         return false
     }
 }
+
+//final validation logic summing it all up-
+
 export async function validateUserLogin(email: string, password: string) {
 
     //checking the email validation first - 

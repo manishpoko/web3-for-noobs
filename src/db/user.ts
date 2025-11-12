@@ -1,5 +1,5 @@
 import prisma from "./prisma";
-import {hashPassword} from "../auth/auth";
+import {hashPassword} from "../auth/authService";
 
 
 //defining the blueprint of the user type to be accepted
