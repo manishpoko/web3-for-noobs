@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    /* PROJECT TYPE AND MODULE ALIGNMENT */
+    "module": "CommonJS", 
+    "moduleResolution": "node",
+    "target": "es2022",
+    
+    /* SOURCE FILE STRUCTURE */
+    "rootDir": "./src",
+    "outDir": "./dist",
+    
+    /* TYPE CHECKING AND SAFETY (DISCIPLINE) */
+    "strict": true,
+    "esModuleInterop": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    
+    /* ENVIRONMENT DEFINITIONS */
+    "lib": ["es2022"],
+    "types": ["node"]
+  },
+  
+  // 🚨 CRITICAL FIX: Ignore folders that contain generated code (Prisma/dist)
+  "exclude": [
+    "node_modules",
+    "dist",
+    "generated"
+  ]
+}

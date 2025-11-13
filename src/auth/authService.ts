@@ -1,72 +1,57 @@
+// src/auth/authService.ts (FINAL, CORRECT CJS STRUCTURE)
 
+// 1. CJS IMPORTS
+const bcrypt = require("bcryptjs");
+const SALT_ROUNDS = 10;
 
-import bcrypt, { compare } from "bcryptjs";
-import prisma from "../db/prisma";
+// 2. DEFINE FUNCTIONS (NO 'export' keyword here)
 
-const saltRounds = 10;
-
-//first we hash the incoming user's password-
-export async function hashPassword (password: string): Promise <string> {
-    //above, we have promise<string> to declare that a promise is expected of string datatype since it is async-await function (this is just type safety, remember it tho!)
-
-  const salt = await bcrypt.genSalt(saltRounds);
-
-  //hashing logic-
-  const hashedPassword = await bcrypt.hash(password, salt);
-
-  return hashedPassword;
+async function hashPassword(password: string): Promise<string> {
+    const salt = await bcrypt.genSalt(SALT_ROUNDS);
+    return bcrypt.hash(password, salt);
 }
 
-//this is the validation process of the user-
-
-export async function findUserByEmail(email: string): Promise <any> {
-
+async function findUserByEmail(email: string): Promise<any> { 
+    // We assume prisma is correctly instantiated and imported in the final environment.
     const user = await prisma.user.findUnique({
         where:{
-            email: email //checks the unique email provided by the user
+            email: email
         }
-    })
+    });
+    
     if(!user) {
-        console.log(`login failed with the email ${email}`)
+        console.log(`Login failed with the email ${email}`);
         return null;
     }
     return user;
 }
 
-export async function comparePassword(plaintextPassword: string, hashedPassword: string) {
-    try{
-        const passwordMatch =await  bcrypt.compare(plaintextPassword, hashedPassword)
-
-        if(passwordMatch) {
-            console.log("pwd checked successful");
-        } else{
-            console.log("pwd check failed")
-        }
-        return passwordMatch;
+async function comparePassword(plaintextPassword: string, hashedPassword: string): Promise<boolean> {
+    try {
+        const passwordMatch = await bcrypt.compare(plaintextPassword, hashedPassword);
+        return passwordMatch; 
     }
     catch (error){
-        console.error("error during password comparision", error);
-        return false
+        console.error("Error during password comparision:", error);
+        return false;
     }
 }
 
-//final validation logic summing it all up-
-
-export async function validateUserLogin(email: string, password: string) {
-
-    //checking the email validation first - 
-    const user = await findUserByEmail(email) 
+async function validateUserLogin(email: string, password: string): Promise<boolean> {
+    const user = await findUserByEmail(email); 
     if(!user) {
-        return false
+        return false;
     }
-
-    //email checked, now password-
-    const passwordIsValid = await comparePassword(password, (user as any).password)
-
+    
+    // We rely on the 'any' type resolution here to access 'user.password'.
+    const passwordIsValid = await comparePassword(password, (user as any).password); 
     return passwordIsValid;
-
-
 }
 
-
-
+// 3. CJS EXPORT: Export all functions as an object (The disciplined way)
+module.exports = {
+    hashPassword,
+    findUserByEmail,
+    comparePassword,
+    validateUserLogin
+};

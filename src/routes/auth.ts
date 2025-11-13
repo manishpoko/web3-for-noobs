@@ -1,68 +1,76 @@
-import { Router, type Request, type Response } from "express";
+// src/routes/auth.ts (Cleaned CJS Structure)
 
-import { createUser } from "../db/user";
-import { validateUserLogin } from "../auth/authService";
+// 1. TYPE IMPORTS (Keep types separate for stability)
+import type { Request, Response } from "express"; 
 
-//create your router instance now
-const router = Router()
+// 2. CJS VALUE IMPORTS (Consolidated and Clean)
+const { Router } = require("express");
+const jwt = require("jsonwebtoken");
 
-//create a new user (POST/REGISTER logic)-
+// Service Imports - Destructure the required functions from the service files
+const { createUser } = require("../db/user");
+const { findUserByEmail, validateUserLogin } = require("../auth/authService");
 
+
+// --- ROUTER SETUP ---
+const router = Router(); 
+
+// --- POST /register (Creates a new user) ---
 router.post('/register', async(req: Request, res: Response) => {
-
-    try {
-        const {email, password, name} = req.body;
-
-        if(!email || !password || !name) {
-            return res.status(400).json({error: "missing required fields brother!"})
+ try {
+ const {email, password, name} = req.body;
+ 
+        if (!email || !password || !name) {
+            return res.status(400).json({error: "Missing required fields: email, password, and name."});
         }
 
-        //call the already defined function createUser
-        const newUser = await createUser({email, password, name})
-        res.status(200).json({
-            message: "user registered succefully, now go on",
-            user: {id: newUser.id, email: newUser.email, name: newUser.name}
-        });
+ const newUser = await createUser({email, password, name})
+ 
+ res.status(201).json({ // Changed status to 201 Created
+ message: "User registered successfully.",
+ user: {id: newUser.id, email: newUser.email, name: newUser.name}
+ });
 
-        
-    } catch (error) {
+ } catch (error) {
+ if(typeof error === 'object' && error !== null && 'code' in error && error.code === 'P2002') {
+ return res.status(409).json({error: "email already registered brotther!"})
+ }
+ res.status(500).json({message: "internal server error, sorry darling :("})
+ }
+});
 
-        // below is a typescript guard check. simply, check if the error is a code (which is a prisma object, is not null) and then check if it is a specific prisma code (here P2002- duplicate entry) ==> if all pass, only then run this error handling logic
-
-        // instead of this simple js error logic - "if (error.code === 'P2002')", we have this ts logic -
-
-        if(typeof error === 'object' && error !== null && 'code' in error && error.code === 'P2002') {
-            return res.status(409).json({error: "email already registered brotther!"})
-        }
-        res.status(500).json({message: "internal server error, sorry darling :("})
-    }
-})
-
-// (POST/LOGIN logic) - validates user and generates jwt 
-
+// --- POST /login (validates user and generates jwt) ---
 router.post('/login', async( req: Request, res: Response) => {
-    try {
+ try {
+ const {email, password} = req.body;
 
-        const {email, password} = req.body;
+ const isValid = await validateUserLogin(email, password);
 
-        //validate credentials using existing logic function
-        const isValid = await validateUserLogin(email, password);
+ if (!isValid) {
+ return res.status(401).json({message: "invalid credentials"})
+ };
+ 
+ const user = await findUserByEmail(email); 
 
-        if (!isValid) {
-            return res.status(401).json({message: "invalid credentials"})
-        };
+        if (!user) {
+             return res.status(404).json({message: "User data missing after validation."});
+        }
 
-        //now we have to generate the actual jwt token here
+ const token = jwt.sign(
+     {id: user.id}, 
+     process.env.JWT_SECRET as string, 
+     {expiresIn: '1h'}
+ );
 
-        res.status(200).json({message: "login successful"})
+ res.status(200).json({message: "login successful", token: token,
+ user: {id: user.id, name: user.name, email: user.email}
+ })
 
+ } catch (error) {
+ console.error('login error',error)
+ res.status(500).json({message: "internal server error during loggin you in brother, pls come back later"})
+ }
+});
 
-        
-    } catch (error) {
-        res.status(500).json({message: "internal server error during loggin you in brother, pls come back later"})
-        
-    }
-
-})
-
-export default router
+// CJS Export
+module.exports = router;
