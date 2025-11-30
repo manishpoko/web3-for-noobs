@@ -13,7 +13,7 @@ interface CategoryCard{
 export default function CategoryCard(categoryCard: CategoryCard) {
 
     return (
-        <Link to= {`/categories/${categoryCard.slug}`}>
+        <Link className="bg-amber-600 rounded-xl flex flex-col justify-between  p-6 aspect-square" to= {`/categories/${categoryCard.slug}`}>
             {categoryCard.title} : this is the {categoryCard.title} card!
         </Link>
 
