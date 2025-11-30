@@ -14,7 +14,7 @@ export default function CategoryCard(categoryCard: CategoryCard) {
 
     return (
         <Link to= {`/categories/${categoryCard.slug}`}>
-            this is the {categoryCard.title} card!
+            {categoryCard.title} : this is the {categoryCard.title} card!
         </Link>
 
     )

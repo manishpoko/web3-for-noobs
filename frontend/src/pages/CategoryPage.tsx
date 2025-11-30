@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+interface PostType {
+    id: string,
+    title: string,
+    slug: string,
+
+}
+
+
 const CategoryPage = () => {
   const params = useParams();
 
   //need a posts variable to hold list of articles returned from API
 
-  const [categoryPost, setCategoryPost] = useState([]);
+  const [categoryPost, setCategoryPost] = useState<PostType[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
