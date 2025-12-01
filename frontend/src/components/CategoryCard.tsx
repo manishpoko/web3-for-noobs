@@ -14,6 +14,7 @@ export default function CategoryCard(categoryCard: CategoryCard) {
 
     return (
         <Link className="bg-indigo-500 rounded-xl flex flex-col justify-between  p-6 aspect-square" to= {`/categories/${categoryCard.slug}`}>
+            <h1>this is hi from categorycard</h1>
             {categoryCard.title} : this is the {categoryCard.title} card!
         </Link>
 
