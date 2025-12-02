@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-interface ArticleListItemProps {
+export interface ArticleListItemProps {
   title: string;
   id: string;
   description?: string;
