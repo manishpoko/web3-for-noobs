@@ -22,6 +22,7 @@ const CategoryPage = () => {
     setIsLoading(true);
     const fetchData = async () => {
       try {
+        //fetches the data from the backend via an api call-
         const response = await fetch(`/api/posts?category=${params.category}`);
         if (!response.ok) {
           throw new Error(`Failed to fetch postss: ${response.status}`);
