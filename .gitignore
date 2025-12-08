@@ -1,0 +1,10 @@
+# Dependency folders
+node_modules/
+/backend/node_modules/
+/frontend/node_modules/
+
+# Environment Variables (this is impppppp!)
+.env
+
+# Build outputs (not needed in repo)
+/backend/dist/
