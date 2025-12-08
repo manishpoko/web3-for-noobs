@@ -4,7 +4,10 @@ node_modules/
 /frontend/node_modules/
 
 # Environment Variables (this is impppppp!)
+
 .env
+backend/.env
+frontend/.env
 
 # Build outputs (not needed in repo)
 /backend/dist/
