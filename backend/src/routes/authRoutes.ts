@@ -1,34 +1,23 @@
-import { Router } from "express"
-import type { Request, Response } from "express"
-import prisma from '@prisma/client'
+import { Router } from "express";
+import type { Request, Response } from "express";
+import prisma from "../db/prisma.ts";
 
-import bcrypt from 'bcrypt'
-import type { PrismaClient } from "@prisma/client/extension";
+import bcrypt from "bcrypt";
 
 const router = Router();
 
-router.get('/health', (req: Request, res: Response) => {
-    res.json({message: "authroutes check"})
-})
+router.get("/health", (req: Request, res: Response) => {
+  res.json({ message: "authroutes check" });
+});
 
-router.post('/login', (req: Request, res: Response)=> {
-    res.json({message: "this is the login page"})
-})
-
+router.post("/login", (req: Request, res: Response) => {
+  res.json({ message: "this is the login page" });
+});
 
 //defining the register endpoint, wth password hashing added -
 
-router.post('/register', (req, res) => {
-const createUser = () => {
-    
-}
-
-
-})
-
-
-
-
-
+router.post("/register", (req, res) => {
+  const createUser = () => {};
+});
 
 export default router;
