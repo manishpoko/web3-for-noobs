@@ -21,7 +21,7 @@ router.post("/login", async (req: Request, res: Response) => {
 
   try {
       const result = await loginUser({email, password});
-      return res.status(200).json(result)
+      return res.status(200).json(result) //we return the result to the user (which is the jwt token we get from the loginUser function's output)
     
   } catch (error){
     return res.status(400).json({message: (error as Error).message})
