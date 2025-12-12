@@ -21,4 +21,18 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   username String?
+  posts Post[]
+}
+
+model Post {
+  postId String @id @default(uuid())
+  authorId String
+  author User @relation(fields: [authorId], references: [id])
+
+  title String @unique
+  content String 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+
 }

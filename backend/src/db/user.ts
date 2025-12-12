@@ -5,13 +5,14 @@
 
 
 
-import { PrismaClient } from "../generated/prisma/client.js";
+// import { PrismaClient } from "../generated/prisma/client.js";
+
+import  prisma  from "./prisma.ts";
 
 import bcrypt from "bcrypt";
 const saltRounds = 10;
 
 import jwt from 'jsonwebtoken';
-const prisma = new PrismaClient();
 
 interface SignupInput {
   email: string;
@@ -25,7 +26,7 @@ interface LoginInput {
   username?: string;
 }
 
-export async function createuser(input: SignupInput) {
+export async function createUser(input: SignupInput) {
   const { email, password, username } = input;
   const hashedPassword = await bcrypt.hash(password, saltRounds);
   const newUser = await prisma.user.create({

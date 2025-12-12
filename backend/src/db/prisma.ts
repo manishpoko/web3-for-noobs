@@ -1,7 +1,7 @@
 // src/db/prisma.ts
 import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient } from '../generated/prisma/index.js';
+import { PrismaClient } from '../generated/prisma/client.js';
 
 // 1. Create the standard Postgres connection pool 
 const connectionString = process.env.DATABASE_URL;
