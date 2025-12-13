@@ -6,6 +6,9 @@ interface PostInput {
     authorId: string
 }
 
+
+
+
 export async function createPost(input: PostInput) {
     const {title, content, authorId} = input;
 
@@ -16,4 +19,24 @@ export async function createPost(input: PostInput) {
     })
     return newPost
 
+}
+
+export async function getAllPosts() {
+    const allPosts = await prisma.post.findMany({
+        select: {
+            postId: true,
+            title: true,
+            content: true,
+            createdAt: true,
+
+            author: {
+                select: {
+                    username: true
+                }
+            }
+        }
+
+    })
+    return allPosts;
+    
 }

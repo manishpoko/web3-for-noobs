@@ -62,7 +62,7 @@ export async function loginUser(input: LoginInput) {
       //password is correct, proceed to login - jwt sign here:
       const payload = {userId: emailExists.id} //assigning the unique user id fetched during login (using select)
 
-      const secretKey = process.env.JWT_SECRET!;
+      const secretKey = process.env.JWT_SECRET || "a_fallback_secret_key";
 
       const token = jwt.sign(payload, secretKey, {expiresIn: "1h"})
       return token; //this is imp. the entire function basically is to return the jwt token here    
