@@ -7,6 +7,32 @@ router.get("/health", (req: Request, res: Response) => {
   res.json({ message: "authroutes check" });
 });
 
+//defining the signup endpoint, wth password hashing added -
+
+router.post("/signup",  async (req: Request, res: Response) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  const username = req.body.username;
+
+
+  if (!email || !password) {
+    return res.status(400).json({message: "email and password required for new user!"})
+  }
+  try {
+    const newUserResult = await createUser({email, password, username});
+    return res.status(200).json(newUserResult); //this will return a json object with entered details a/t schema of user
+
+  } catch (error) {
+    return res.status(400).json({message: (error as Error).message})
+
+    
+  }
+
+
+});
+
+//login logic using email and password - 
+
 router.post("/login", async (req: Request, res: Response) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -31,28 +57,6 @@ router.post("/login", async (req: Request, res: Response) => {
 
 });
 
-//defining the signup endpoint, wth password hashing added -
 
-router.post("/signup",  async (req: Request, res: Response) => {
-  const email = req.body.email;
-  const password = req.body.password;
-  const username = req.body.username;
-
-
-  if (!email || !password) {
-    return res.status(400).json({message: "email and password required for new user!"})
-  }
-  try {
-    const newUserResult = await createUser({email, password, username});
-    return res.status(200).json(newUserResult);
-
-  } catch (error) {
-    return res.status(400).json({message: (error as Error).message})
-
-    
-  }
-
-
-});
 
 export default router;
