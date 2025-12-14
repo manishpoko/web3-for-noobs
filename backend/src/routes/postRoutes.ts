@@ -1,7 +1,7 @@
 import { Router } from "express";
 import type { Request, Response } from "express";
 
-import { createPost, deletePost, getAllPosts } from "../db/post.ts";
+import { createPost, deletePost, getAllPosts, updatePost } from "../db/post.ts";
 import { authMiddleware } from "../middleware/authMiddleware.ts";
 import type { AuthRequest } from "../middleware/authMiddleware.ts";
 
@@ -41,20 +41,43 @@ router.get("/", async (req: Request, res: Response) => {
   }
 });
 
-router.delete('/:postId', authMiddleware, async(req: Request, res: Response) => {
-  const idToDelete = req.params.postId;
-  if (!idToDelete) {
-    return res.status(400).json({ message: "Post ID is required" });
-}
-  try {
-    await deletePost(idToDelete);
-    return res.status(200).json({message: `post deleted!`})
-  } catch (error) {
-    return res.status(500).json({message: "could not delete post :( "})
+//route to delete a post by checking its postId-
+router.delete(
+  "/:postId",
+  authMiddleware,
+  async (req: Request, res: Response) => {
+    const idToDelete = req.params.postId;
+    if (!idToDelete) {
+      return res.status(400).json({ message: "Post ID is required" });
+    }
+    try {
+      await deletePost(idToDelete);
+      return res.status(200).json({ message: `post deleted!` });
+    } catch (error) {
+      return res.status(500).json({ message: "could not delete post :( " });
+    }
   }
-})
+);
 
-
-
+//route to update a post (title and/or content)-
+router.put("/:postId", authMiddleware, async (req: Request, res: Response) => {
+  const title = req.body.title;
+  const content = req.body.content;
+  if (!title && !content) {
+    return res.status(400).json({
+      message: "please fill the fields to update",
+    });
+  }
+  const idToUpdate = req.params.postId;
+  if (!idToUpdate) {
+    return res.status(400).json({ message: "Post ID is required" });
+  }
+  try {
+    const updatedPostResult = await updatePost(idToUpdate, { title, content });
+    return res.status(200).json(updatedPostResult);
+  } catch (error) {
+    return res.status(500).json({ message: "could not update post :( " });
+  }
+});
 
 export default router;
