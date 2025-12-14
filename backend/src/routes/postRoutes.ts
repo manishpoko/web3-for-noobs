@@ -1,7 +1,7 @@
 import { Router } from "express";
 import type { Request, Response } from "express";
 
-import { createPost, getAllPosts } from "../db/post.ts";
+import { createPost, deletePost, getAllPosts } from "../db/post.ts";
 import { authMiddleware } from "../middleware/authMiddleware.ts";
 import type { AuthRequest } from "../middleware/authMiddleware.ts";
 
@@ -40,5 +40,21 @@ router.get("/", async (req: Request, res: Response) => {
     return res.status(500).json({ message: "error fetching the posts :(" });
   }
 });
+
+router.delete('/:postId', authMiddleware, async(req: Request, res: Response) => {
+  const idToDelete = req.params.postId;
+  if (!idToDelete) {
+    return res.status(400).json({ message: "Post ID is required" });
+}
+  try {
+    await deletePost(idToDelete);
+    return res.status(200).json({message: `post deleted!`})
+  } catch (error) {
+    return res.status(500).json({message: "could not delete post :( "})
+  }
+})
+
+
+
 
 export default router;

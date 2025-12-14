@@ -40,3 +40,13 @@ export async function getAllPosts() {
     return allPosts;
     
 }
+
+export async function deletePost(postId: string){
+    const deletedPost = await prisma.post.delete({
+        where: {
+            postId : postId
+        }
+    });
+
+    return deletedPost;
+}

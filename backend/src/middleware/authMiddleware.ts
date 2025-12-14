@@ -33,10 +33,10 @@ export function authMiddleware(
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
-    console.log("decoded token payload - ", decoded);
+    // console.log("decoded token payload - ", decoded); --testinggg
 
     req.userId = decoded.userId;
-    console.log("set req.userId to - ", req.userId);
+    // console.log("set req.userId to - ", req.userId); --testinggg
 
     next();
   } catch (error) {
