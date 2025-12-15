@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import ArticleList from "../components/ArticleList";
 
 export interface LocalPostType {
-  id: string;
+  postId: string;
   title: string;
-  slug: string;
+  slug?: string;
 }
 
 const CategoryPage = () => {
@@ -30,6 +30,7 @@ const CategoryPage = () => {
         //response.ok returns true only when status is 200-300 range
 
         const categoryData = await response.json();
+        console.log("📦 Data from Backend:", categoryData); // 👈 Add this line!
         setPosts(categoryData);
       } catch {
         console.error("error in fetching data");

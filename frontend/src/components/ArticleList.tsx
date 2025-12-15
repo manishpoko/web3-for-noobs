@@ -13,7 +13,12 @@ export default function ArticleList({ posts }: ArticleListProps) {
     <div>
       <ul>
         {posts.map((post) => (
-          <ArticleListItem key={post.id} id={post.id} title={post.title}  slug={post.slug} />
+          <ArticleListItem 
+            key={post.postId} 
+            id={post.postId} 
+            title={post.title} 
+            slug={post.slug || ""} // Fallback if slug is missing
+          />
         ))}
       </ul>
     </div>
