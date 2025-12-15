@@ -7,7 +7,7 @@ import postRoutes from './routes/postRoutes.ts'
 const app = express();
 const port = 3001;
 
-
+//for connecting to the frontend seamlessly, we need cors enabled
 app.use(cors())
 app.use(express.json());
 

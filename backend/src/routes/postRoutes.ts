@@ -40,6 +40,12 @@ router.get("/", async (req: Request, res: Response) => {
     return res.status(500).json({ message: "error fetching the posts :(" });
   }
 });
+//route to get one specific post - 
+
+
+
+
+
 
 //route to delete a post by checking its postId-
 router.delete(
