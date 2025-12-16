@@ -8,6 +8,9 @@ node_modules/
 .env
 backend/.env
 frontend/.env
+backend/roadmap.txt
+
+
 
 # Build outputs (not needed in repo)
 /backend/dist/
