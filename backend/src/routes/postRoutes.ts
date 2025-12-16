@@ -1,7 +1,13 @@
 import { Router } from "express";
 import type { Request, Response } from "express";
 
-import { createPost, deletePost, getAllPosts, updatePost } from "../db/post.ts";
+import {
+  createPost,
+  deletePost,
+  getAllPosts,
+  getSinglePost,
+  updatePost,
+} from "../db/post.ts";
 import { authMiddleware } from "../middleware/authMiddleware.ts";
 import type { AuthRequest } from "../middleware/authMiddleware.ts";
 
@@ -40,12 +46,28 @@ router.get("/", async (req: Request, res: Response) => {
     return res.status(500).json({ message: "error fetching the posts :(" });
   }
 });
-//route to get one specific post - 
 
+//route to get one specific post -
+router.get("/:postId", async (req: Request, res: Response) => {
+  const postId = req.params.postId;
+  if (!postId) {
+    return res.status(400).json({ message: "post Id required" });
+  }
+  try {
+    const singlePost = await getSinglePost(postId);
 
+    if (!singlePost) {
+      return res.status(404).json({ message: "Post not found" });
+    }
 
-
-
+    return res.status(200).json(singlePost);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "error fetching the specified post :( " });
+  }
+});
 
 //route to delete a post by checking its postId-
 router.delete(

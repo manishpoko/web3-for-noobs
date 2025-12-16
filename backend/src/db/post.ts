@@ -37,6 +37,20 @@ export async function getAllPosts() {
   return allPosts;
 }
 
+export async function getSinglePost(postId: string) {
+  const singlePost = await prisma.post.findUnique({
+    where: {
+      postId: postId,
+    },
+    include: {
+      author: {
+        select: { username: true },
+      },
+    },
+  });
+  return singlePost;
+}
+
 export async function deletePost(postId: string) {
   const deletedPost = await prisma.post.delete({
     where: {
