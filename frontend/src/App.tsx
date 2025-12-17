@@ -3,6 +3,7 @@ import AppLayout from "./layout/AppLayout";
 import HomePage from "./pages/HomePage";
 import ArticlePage from "./pages/ArticlePage";
 import CategoryPage from "./pages/CategoryPage";
+import CreatePostPage from "./pages/CreatePostPage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route index element={<HomePage />} />
             <Route path="post/:article" element={<ArticlePage/>} />
             <Route path="categories/:category" element={<CategoryPage/>} />
+            <Route path="create" element={<CreatePostPage/>} />
 
           </Route>
 
