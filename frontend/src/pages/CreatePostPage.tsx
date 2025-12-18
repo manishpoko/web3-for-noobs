@@ -38,8 +38,13 @@ export default function CreatePostPage() {
 
       alert("post createed successfully!");
       navigate("/");
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        //for any other weird error fallback
+        setError("An unexpected error occurred");
+      }
     } finally {
       setIsSubmitting(false);
     }

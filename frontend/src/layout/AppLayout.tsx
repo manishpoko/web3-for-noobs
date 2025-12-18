@@ -10,6 +10,8 @@ export default function AppLayout() {
       <Link to= '/' className="text-xl font-bold text-white drop-shadow-md">
       web3 blog
       </Link>
+      <Link to={'/login'} className="text-white hover:text-teal-100 font-bold mr-4">
+      login</Link>
 
       <Link to='/create' className="bg-white text-teal-600 px-4 py-2 rounded-full font-bold hover:bg-teal-50 transition shadow-sm" >
       + CREATE A POST

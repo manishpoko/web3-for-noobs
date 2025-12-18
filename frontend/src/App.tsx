@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import ArticlePage from "./pages/ArticlePage";
 import CategoryPage from "./pages/CategoryPage";
 import CreatePostPage from "./pages/CreatePostPage";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="post/:article" element={<ArticlePage/>} />
             <Route path="categories/:category" element={<CategoryPage/>} />
             <Route path="create" element={<CreatePostPage/>} />
+            <Route path="/login" element={<LoginPage />} />
 
           </Route>
 
