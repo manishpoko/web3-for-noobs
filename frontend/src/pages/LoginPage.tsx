@@ -28,10 +28,10 @@ export default function LoginPage() {
       }
       //if no error we capture the token from the fetched data
       const data = await response.json();
-      const token = data.token;
+      console.log("SERVER SENT:", data);
 
       //storing the token in localStorage to prevent asking for it every single time in every action  -
-      localStorage.setItem("token", token);
+      localStorage.setItem("token", data);
 
       alert("login successful");
       navigate("/");

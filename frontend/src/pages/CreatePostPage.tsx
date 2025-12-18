@@ -8,7 +8,6 @@ export default function CreatePostPage() {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [token, setToken] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
@@ -17,12 +16,19 @@ export default function CreatePostPage() {
     setIsSubmitting(true);
     setError("");
 
+    const storedToken = localStorage.getItem("token");
+    if (!storedToken) {
+      setError("you must be logged in first!");
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const response = await fetch("/api/posts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${storedToken}`,
         },
         body: JSON.stringify({
           title: title,
@@ -93,23 +99,6 @@ export default function CreatePostPage() {
           />
         </div>
         //temp. token input//
-        <div className="p-3 bg-yellow-50 rounded border border-yellow-200">
-          <label className="text-xs block font-bold text-yellow-800 mb-1 uppercase">
-            secret token (from postman)
-          </label>
-          <input
-            type="password"
-            required
-            className="width-full p-2 text-sm border border-yellow-300 rounded"
-            placeholder="place your long token here"
-            value={token}
-            onChange={(e) => setToken(e.target.value)}
-          />
-
-          <p className="text-xs text-yellow-700 mt-1">
-            //this is needed because there is no login page yet
-          </p>
-        </div>
         <button
           type="submit"
           disabled={isSubmitting}
