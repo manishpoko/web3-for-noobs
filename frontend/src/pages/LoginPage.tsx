@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+//created login page in order to get and keep the token automatically (in localstorage) - otherwise we'd be copying it from postman everytime
+
+
 export default function LoginPage() {
   const navigate = useNavigate();
   const [loginEmail, setloginEmail] = useState("");
