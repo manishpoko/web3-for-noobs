@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {  Routes, Route } from "react-router-dom";
 import AppLayout from "./layout/AppLayout";
 import HomePage from "./pages/HomePage";
 import ArticlePage from "./pages/ArticlePage";
@@ -8,7 +8,6 @@ import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
-    <BrowserRouter>
       <div>
         <h1> this h1 is from App.tsx </h1>
         <Routes>
@@ -25,7 +24,7 @@ function App() {
 
         </Routes>
       </div>
-    </BrowserRouter>
+
   );
 }
 

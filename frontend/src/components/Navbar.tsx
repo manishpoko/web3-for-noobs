@@ -1,15 +1,17 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
   const navigate = useNavigate();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token")); //the !! immediately converts a string -> boolean
+  const {isLoggedIn, logout} = useAuth()
+
+
 
   function handleLogout() {
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
+
+    logout(); //logic straight from the useAuth hook 
     navigate("/");
     //we do not return anything here. this is a fn, not a component idiot!
   }

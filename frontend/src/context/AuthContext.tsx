@@ -17,8 +17,9 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 //the provider- (this is the parent for all - navbar, loginpage, createpostpage etc ). also is the broadcaster to all
+
 export function AuthProvider({children}: {children: ReactNode}) {
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!localStorage.getItem("token"))
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!localStorage.getItem("token")) //sets trus if token is there otherwise false - universal point of logic declaration
 
     //login context logic - 
     const login = (token: string)=> {
