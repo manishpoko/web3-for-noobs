@@ -4,27 +4,34 @@ interface PostInput {
   title: string;
   content: string;
   authorId: string;
+  slug: string; //this will be the category filter, eg- a post belonging to "DEFI"
 }
 
 export async function createPost(input: PostInput) {
-  const { title, content, authorId } = input;
+  const { title, content, slug, authorId } = input;
 
   const newPost = await prisma.post.create({
     data: {
       title,
       content,
       authorId,
+      slug,
     },
   });
   return newPost;
 }
 
-export async function getAllPosts() {
+export async function getAllPosts(categorySlug?: string) {
+  //if slug exists, filter by it, otherwise get everything
+  const whereClause = categorySlug ? { slug: categorySlug } : {};
+
   const allPosts = await prisma.post.findMany({
+    where: whereClause,
     select: {
       postId: true,
       title: true,
       content: true,
+      slug: true, //this is useful here
       createdAt: true,
 
       author: {
@@ -32,6 +39,9 @@ export async function getAllPosts() {
           username: true,
         },
       },
+    },
+    orderBy: {
+      createdAt: "desc",
     },
   });
   return allPosts;

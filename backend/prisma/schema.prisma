@@ -34,5 +34,8 @@ model Post {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  //add slug (this will be the category filter, eg : DeFi)
+  slug String @default("uncategorized")
+
 
 }

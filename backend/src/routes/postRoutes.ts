@@ -15,18 +15,18 @@ const router = Router();
 
 // full path for the below router  will be - /api/posts/create
 router.post("/", authMiddleware, async (req: AuthRequest, res: Response) => {
-  const title = req.body.title;
-  const content = req.body.content;
+  const {title, content, slug} = req.body;
+
   const authorId = req.userId!; //we get the userId as a token that was decoded using authMiddleware
 
-  if (!title || !content || !authorId) {
+  if (!title || !content || !slug) {
     return res.status(400).json({
-      message: "please fill the required details",
+      message: "title, content and category are required",
     });
   }
 
   try {
-    const postResult = await createPost({ title, content, authorId });
+    const postResult = await createPost({ title, content, slug, authorId });
     return res.status(200).json(postResult);
   } catch (error) {
     return res.status(400).json({ message: "error posting!" });
@@ -36,7 +36,10 @@ router.post("/", authMiddleware, async (req: AuthRequest, res: Response) => {
 //route to get all the posts -
 router.get("/", async (req: Request, res: Response) => {
   try {
-    const posts = await getAllPosts();
+    const categorySlug = req.query.category as string | undefined; //grabbing the query (category) from the url eg- category?=defi
+
+
+    const posts = await getAllPosts(categorySlug);
     return res.status(200).json(posts);
   } catch (error) {
     return res.status(500).json({ message: "error fetching the posts :(" });
