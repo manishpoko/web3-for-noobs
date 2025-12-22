@@ -1,15 +1,28 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+//import { useAuth } from "../context/AuthContext";
+const CATEGORIES = [
+  { label: "DeFi", value: "defi" },
+  { label: "NFTs & Art", value: "nfts-art" },
+  { label: "Security", value: "security-wallets" },
+  { label: "DAOs", value: "daos-governance" },
+  { label: "Layer 2s", value: "layer-2s" },
+  { label: "Solana", value: "solana" },
+];
 
 //we will have a form field here that takes the input and creates a new post in the backend using this data
 
 export default function CreatePostPage() {
+
+    //const {token} = useAuth(); //connect to the global auth state (optional, may be useful in future)
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+
+  const [category, setCategory] = useState(CATEGORIES[0].value) //default value
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +46,7 @@ export default function CreatePostPage() {
         body: JSON.stringify({
           title: title,
           content: content,
-          slug: title.toLowerCase().replace(/ /g, "-") + "-" + Date.now(),
+          slug: category, //the category tag (eg defi)
         }),
       });
 
@@ -83,6 +96,27 @@ export default function CreatePostPage() {
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
+
+        //category type (dropdown)
+        <div>
+            <label className="block text-sm font-bold text-gray-700 mb-1">CATEGORY
+            </label>
+            <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none bg-white">
+                {CATEGORIES.map((cat) => (
+                    <option key={cat.value} value={cat.value}>
+                        {cat.label}
+                    </option>
+                ))}
+
+
+            </select>
+
+        </div>
+
+
+
+
+
         //content input//
         <div className="">
           <label className="block text-sm font-medium text-gray-700 mb-1">
