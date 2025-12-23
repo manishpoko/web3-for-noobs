@@ -8,7 +8,7 @@ export interface ArticleListItemProps {
   createdAt?: string;
   updatedAt?: string;
   authorName?: string;
-}
+}                                        
 
 export default function ArticleListItem(props: ArticleListItemProps){
   return (

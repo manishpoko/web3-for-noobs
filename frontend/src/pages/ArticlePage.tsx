@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 
 interface SinglePostType {
@@ -10,14 +10,36 @@ interface SinglePostType {
   author?: {
     username: string;
   };
+  authorId: string
 }
+
+
+function getUserIdFromToken() {
+  const token = localStorage.getItem("token")
+  if(!token) return null;
+
+  try {
+    const payload = token.split(".")[1];
+    const decoded = JSON.parse(atob(payload)); //atob decodes the weird payload into readable message
+
+    return decoded.userId;
+  } catch (error) {
+    return null;
+  }
+}
+
+
+
 
 export default function ArticlePage() {
   const { article } = useParams(); //grABS THE ID FROM THE URL
+  const navigate = useNavigate(); //for redirecting after delete
 
   const [post, setPost] = useState<SinglePostType | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const currentUserId = getUserIdFromToken(); //storing the current user id
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -41,17 +63,40 @@ export default function ArticlePage() {
     }
   }, [article]);
 
+  //function to delete a post(only by the post author and not anyone else )
+    const handleDelete= async() => {
+      if (!confirm("are you sure you want to delete this post?")) return; //this means if the user doesnt confirm to delete post, returrn
+
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch(`/api/posts/${post?.postId}`, {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}`}
+        });
+        if(res.ok){
+          alert("post deleted!");
+          navigate("/");
+        } else{
+          alert: "failed to delete"
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
   if (loading)
     return <div className="text-center p-10">Loading article...</div>;
   if (error)
     return <div className="text-center p-10 text-red-500">{error}</div>;
   if (!post) return <div className="text-center p-10">Post not found.</div>;
 
+  const isOwner = currentUserId === post.authorId;
+
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-xl mt-10">
       //header here//
       <div className="border-b pb-4 mb-6">
-        <h1 className="texxt-4xl font-bold text-gray-900 nb-2">{post.title}</h1>
+        <h1 className="text-4xl font-bold text-gray-900 nb-2">{post.title}</h1>
         <div className="flex items-center text-gray-500 text-sm">
           <span className="font-semibold text-indigo-600 mr-2">
             by {post.author?.username || "unknown author"}
