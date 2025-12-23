@@ -106,6 +106,27 @@ export default function ArticlePage() {
           </span>
         </div>
       </div>
+
+      //shows only if isOwner is true(i.e. if the owner wants to edit or delete)
+      {isOwner && (
+        <div className="flex gap-2">
+          <button onClick={()=> alert("edit feature comiing soon")}
+            className="bg-blue-100 text-blue-700 px-3 py-1 rounded hover:bg-blue-200 text-sm font-bold"
+            >
+              EDIT
+
+          </button>
+          <button onClick={handleDelete}
+          className="bg-red-100 text-red-700 px-3 py-1 rounded hover:bg-red-200 text-sm font-bold"
+          >
+            DELETE
+          </button>
+        </div>
+      )}
+
+
+
+
       //content section//
       <div className="prose prose-lg text-gray-800 leading-relaxed whitespace-pre-wrap">
         {post.content}
