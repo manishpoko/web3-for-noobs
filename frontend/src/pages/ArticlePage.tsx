@@ -77,7 +77,7 @@ export default function ArticlePage() {
           alert("post deleted!");
           navigate("/");
         } else{
-          alert: "failed to delete"
+          alert("failed to delete");
         }
       } catch (err) {
         console.error(err)
@@ -90,7 +90,7 @@ export default function ArticlePage() {
     return <div className="text-center p-10 text-red-500">{error}</div>;
   if (!post) return <div className="text-center p-10">Post not found.</div>;
 
-  const isOwner = currentUserId === post.authorId;
+  const isOwner = currentUserId === post.authorId; //returns true if currenUserId matches with the id of the author(from the backend)
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-xl mt-10">
@@ -123,9 +123,6 @@ export default function ArticlePage() {
           </button>
         </div>
       )}
-
-
-
 
       //content section//
       <div className="prose prose-lg text-gray-800 leading-relaxed whitespace-pre-wrap">
