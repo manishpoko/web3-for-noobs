@@ -5,6 +5,7 @@ import ArticlePage from "./pages/ArticlePage";
 import CategoryPage from "./pages/CategoryPage";
 import CreatePostPage from "./pages/CreatePostPage";
 import LoginPage from "./pages/LoginPage";
+import EditPostPage from "./pages/EditPostPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="categories/:category" element={<CategoryPage/>} />
             <Route path="create" element={<CreatePostPage/>} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/edit/:id" element={<EditPostPage/>} />
 
           </Route>
 

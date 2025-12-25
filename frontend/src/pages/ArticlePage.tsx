@@ -23,8 +23,8 @@ function getUserIdFromToken() {
     const decoded = JSON.parse(atob(payload)); //atob decodes the weird payload into readable message
 
     return decoded.userId;
-  } catch (error) {
-    return null;
+  } catch (err) {
+    return err;
   }
 }
 
@@ -110,7 +110,7 @@ export default function ArticlePage() {
       //shows only if isOwner is true(i.e. if the owner wants to edit or delete)
       {isOwner && (
         <div className="flex gap-2">
-          <button onClick={()=> alert("edit feature comiing soon")}
+          <button onClick={()=> navigate(`/edit/${post.postId}`)}
             className="bg-blue-100 text-blue-700 px-3 py-1 rounded hover:bg-blue-200 text-sm font-bold"
             >
               EDIT
