@@ -20,7 +20,7 @@ function App() {
             <Route path="categories/:category" element={<CategoryPage/>} />
             <Route path="create" element={<CreatePostPage/>} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/edit/:id" element={<EditPostPage/>} />
+            <Route path="edit/:id" element={<EditPostPage/>} />
 
           </Route>
 
