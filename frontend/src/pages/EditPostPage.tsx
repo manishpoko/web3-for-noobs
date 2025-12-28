@@ -38,7 +38,7 @@ export default function EditPostPage() {
     });
     if (res.ok) {
       alert("post updated");
-      navigate(`/posts/${id}`);
+      navigate(`/post/${id}`);
     } else {
       alert("failed to update!");
     }

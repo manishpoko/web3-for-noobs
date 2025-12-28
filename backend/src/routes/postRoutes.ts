@@ -15,7 +15,7 @@ const router = Router();
 
 // full path for the below router  will be - /api/posts/create
 router.post("/", authMiddleware, async (req: AuthRequest, res: Response) => {
-  const {title, content, slug} = req.body;
+  const { title, content, slug } = req.body;
 
   const authorId = req.userId!; //we get the userId as a token that was decoded using authMiddleware
 
@@ -37,7 +37,6 @@ router.post("/", authMiddleware, async (req: AuthRequest, res: Response) => {
 router.get("/", async (req: Request, res: Response) => {
   try {
     const categorySlug = req.query.category as string | undefined; //grabbing the query (category) from the url eg- category?=defi
-
 
     const posts = await getAllPosts(categorySlug);
     return res.status(200).json(posts);
@@ -86,70 +85,51 @@ router.delete(
   }
 );
 
-//route to update a post (title and/or content)-
-// router.put("/:postId", authMiddleware, async (req: Request, res: Response) => {
-//   const title = req.body.title;
-//   const content = req.body.content;
-//   if (!title && !content) {
-//     return res.status(400).json({
-//       message: "please fill the fields to update",
-//     });
-//   }
-//   const idToUpdate = req.params.postId;
-//   if (!idToUpdate) {
-//     return res.status(400).json({ message: "Post ID is required" });
-//   }
-//   try {
-//     const updatedPostResult = await updatePost(idToUpdate, { title, content });
-//     return res.status(200).json(updatedPostResult);
-//   } catch (error) {
-//     return res.status(500).json({ message: "could not update post :( " });
-//   }
-// });
 
-//new updated route for PUT request:
 
-router.put("/:postId", authMiddleware, async (req: AuthRequest, res: Response) => {
-  const { title, content } = req.body;
-  const { postId } = req.params;
-  const userId = req.userId; // the id of the person logged in
+router.put(
+  "/:postId",
+  authMiddleware,
+  async (req: AuthRequest, res: Response) => {
+    const { title, content } = req.body;
+    const { postId } = req.params;
+    const userId = req.userId; //id of the person logged in
 
-  // validation -ensure we have data to update
-  if (!title && !content) {
-    return res.status(400).json({ message: "Please provide title or content to update" });
-  }
-
-  if (!postId) {
-    return res.status(400).json({ message: "Post ID is required" });
-  }
-
-  try {
-    //security check - fetch the post first
-    const existingPost = await getSinglePost(postId);
-
-    if (!existingPost) {
-      return res.status(404).json({ message: "Post not found" });
+    if (!title && !content) {
+      return res
+        .status(400)
+        .json({ message: "please provide title or content to update" });
     }
-
-    // debuging logs - in our terminal
-    console.log("--------------------------------");
-    console.log("Attempting Edit...");
-    console.log("Logged-in User:", userId);
-    console.log("Post Author:   ", existingPost.authorId);
-    
-    // 4. THE SHIELD: If IDs don't match, block them.
-    if (existingPost.authorId !== userId) {
-      console.log("⛔ ACCESS DENIED");
-      return res.status(403).json({ message: "You are not authorized to edit this post" });
+    if (!postId) {
+      return res.status(400).json({ message: "POST ID is required" });
     }
+    try {
+      const existingPost = await getSinglePost(postId);
+      if (!existingPost) {
+        return res.status(400).json({ message: "post not found" });
+      }
 
-    //  if match, proceed to update
-    const updatedPostResult = await updatePost(postId, { title, content });
-    return res.status(200).json(updatedPostResult);
+      //debugging check for existing logs in terminal-
+      console.log("------------------------");
+      console.log("attempting edit");
+      console.log("logged in user:", userId);
+      console.log("post author: ", existingPost.authorId);
 
-  } catch (error) {
-    console.error("Update Error:", error);
-    return res.status(500).json({ message: "Could not update post :(" });
+      //shield guard - if ids dont match, block them
+      if (existingPost.authorId !== userId) {
+        console.log("ACCESS DENIED");
+        return res
+          .status(403)
+          .json({ message: "you are not authorised to edit this" });
+      }
+
+      const updatedPostResult = await updatePost(postId, { title, content });
+      return res.status(200).json(updatedPostResult);
+    } catch (error) {
+      console.error("updated error - ", error);
+      return res.status(500).json({ message: "could not update the post :(" });
+    }
   }
-});
+);
+
 export default router;
