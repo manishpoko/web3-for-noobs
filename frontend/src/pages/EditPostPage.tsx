@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
 export default function EditPostPage() {
   const { id } = useParams();
@@ -13,7 +14,7 @@ export default function EditPostPage() {
   //fetch existing data (prefill the form)-
   useEffect(() => {
     const fetchPost = async () => {
-      const res = await fetch(`/api/posts/${id}`);
+      const res = await fetch(`${API_BASE_URL}/posts/${id}`);
       const data = await res.json();
 
       setTitle(data.title);
@@ -28,7 +29,7 @@ export default function EditPostPage() {
     e.preventDefault();
 
     const token = localStorage.getItem("token");
-    const res = await fetch(`/api/posts/${id}`, {
+    const res = await fetch(`${API_BASE_URL}/posts/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

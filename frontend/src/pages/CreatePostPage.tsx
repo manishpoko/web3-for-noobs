@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 //import { useAuth } from "../context/AuthContext";
 const CATEGORIES = [
   { label: "DeFi", value: "defi" },
@@ -37,7 +38,7 @@ export default function CreatePostPage() {
     }
 
     try {
-      const response = await fetch("/api/posts", {
+      const response = await fetch(`${API_BASE_URL}/posts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

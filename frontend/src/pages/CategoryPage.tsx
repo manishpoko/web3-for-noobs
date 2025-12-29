@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ArticleList from "../components/ArticleList";
+import { API_BASE_URL } from "../config";
 
 export interface LocalPostType {
   postId: string;
@@ -23,7 +24,7 @@ const CategoryPage = () => {
     const fetchData = async () => {
       try {
         //fetches the data from the backend via an api call-
-        const response = await fetch(`/api/posts?category=${params.category}`);
+        const response = await fetch(`${API_BASE_URL}/posts?category=${params.category}`);
         if (!response.ok) {
           throw new Error(`Failed to fetch postss: ${response.status}`);
         }

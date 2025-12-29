@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
 
 interface SinglePostType {
@@ -44,7 +45,7 @@ export default function ArticlePage() {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await fetch(`/api/posts/${article}`);
+        const res = await fetch(`${API_BASE_URL}/posts/${article}`);
         if (!res.ok) {
           throw new Error("post not found :(");
         }
@@ -69,7 +70,7 @@ export default function ArticlePage() {
 
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch(`/api/posts/${post?.postId}`, {
+        const res = await fetch(`${API_BASE_URL}/posts/${post?.postId}`, {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}`}
         });
