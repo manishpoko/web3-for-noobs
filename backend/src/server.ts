@@ -4,12 +4,12 @@ import cors from "cors";
 import authRoutes from "./routes/authRoutes.ts";
 import postRoutes from "./routes/postRoutes.ts";
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 //for connecting to the frontend seamlessly, we need cors enabled
 app.use(
   cors({
-    origin: "https://web3-for-noobs.vercel.app/",
+    origin: "https://web3-for-noobs.vercel.app",
     credentials: true,
   })
 );

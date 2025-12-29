@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { API_BASE_URL } from "../config";
 
 //created login page in order to get and keep the token automatically (in localstorage) - otherwise we'd be copying it from postman everytime
 
-
 export default function LoginPage() {
   const navigate = useNavigate();
-  const {login} = useAuth()
+  const { login } = useAuth();
   const [loginEmail, setloginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
@@ -18,7 +18,7 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,8 +36,8 @@ export default function LoginPage() {
       console.log("SERVER SENT:", data);
 
       //storing the token in localStorage to prevent asking for it every single time in every action  -
-    //   localStorage.setItem("token", data);
-    login(data); //calling the login() fn from the AuthProvider
+      //   localStorage.setItem("token", data);
+      login(data); //calling the login() fn from the AuthProvider
 
       alert("login successful");
       navigate("/");
