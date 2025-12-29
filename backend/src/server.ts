@@ -1,14 +1,18 @@
 import express from "express";
-import cors from 'cors'
+import cors from "cors";
 
-
-import authRoutes from './routes/authRoutes.ts'
-import postRoutes from './routes/postRoutes.ts'
+import authRoutes from "./routes/authRoutes.ts";
+import postRoutes from "./routes/postRoutes.ts";
 const app = express();
 const port = 3001;
 
 //for connecting to the frontend seamlessly, we need cors enabled
-app.use(cors())
+app.use(
+  cors({
+    origin: "https://web3-for-noobs.vercel.app/",
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -19,12 +23,8 @@ app.listen(port, () => {
   console.log("listening from port 3001");
 });
 
-app.use('/api/posts', postRoutes);
+app.use("/api/posts", postRoutes);
 
-
-
-
-
-app.use('/api/auth', authRoutes);
+app.use("/api/auth", authRoutes);
 
 export default app;
