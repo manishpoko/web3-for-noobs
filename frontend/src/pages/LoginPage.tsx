@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { API_BASE_URL } from "../config";
+import toast from "react-hot-toast";
 
 //created login page in order to get and keep the token automatically (in localstorage) - otherwise we'd be copying it from postman everytime
 
@@ -39,13 +40,15 @@ export default function LoginPage() {
       //   localStorage.setItem("token", data);
       login(data); //calling the login() fn from the AuthProvider
 
-      alert("login successful");
+      toast.success("login successful");
       navigate("/");
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
+        toast.error(err.message)
       } else {
         setError("login failed");
+        toast.error(error)
       }
     }
   };

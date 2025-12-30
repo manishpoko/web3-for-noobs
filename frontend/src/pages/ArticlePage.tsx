@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../config";
+import toast from "react-hot-toast";
 
 
 interface SinglePostType {
@@ -74,10 +75,10 @@ export default function ArticlePage() {
           headers: { Authorization: `Bearer ${token}`}
         });
         if(res.ok){
-          alert("post deleted!");
+          toast.success("post deleted!");
           navigate("/");
         } else{
-          alert("failed to delete");
+          toast.error("failed to delete");
         }
       } catch (err) {
         console.error(err)

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../config";
+import toast from "react-hot-toast";
 
 //import { useAuth } from "../context/AuthContext";
 const CATEGORIES = [
@@ -57,11 +58,12 @@ export default function CreatePostPage() {
         throw new Error(ErrData.message || "failed to create post :( ");
       }
 
-      alert("post creeeeated successfully!");
+      toast.success("post creeeeated successfully!");
       navigate("/");
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
+        toast.error(err.message); //for extra visibility
       } else {
         //for any other weird error fallback
         setError("An unexpected error occurred");

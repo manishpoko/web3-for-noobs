@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { API_BASE_URL } from "../config";
+import toast from "react-hot-toast";
 
 export default function EditPostPage() {
   const { id } = useParams();
@@ -38,10 +39,10 @@ export default function EditPostPage() {
       body: JSON.stringify({ title, content }),
     });
     if (res.ok) {
-      alert("post updated");
+      toast.success("post updated");
       navigate(`/post/${id}`);
     } else {
-      alert("failed to update!");
+      toast.error("failed to update!");
     }
   };
   if (loading)

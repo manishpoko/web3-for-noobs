@@ -8,10 +8,14 @@ import LoginPage from "./pages/LoginPage";
 import EditPostPage from "./pages/EditPostPage";
 import PrivateRoute from "./components/PrivateRoute";
 
+import { Toaster } from "react-hot-toast";
+
 function App() {
   return (
     <div>
       <h1> this h1 is from App.tsx </h1>
+
+      <Toaster position="top-center"/>
       <Routes>
         <Route path="/" element={<AppLayout />}>
           <Route index element={<HomePage />} />
@@ -21,7 +25,6 @@ function App() {
 
           {/* private routes for admin only */}
           <Route element={<PrivateRoute />}>
-          
             <Route path="create" element={<CreatePostPage />} />
             <Route path="edit/:id" element={<EditPostPage />} />
           </Route>
