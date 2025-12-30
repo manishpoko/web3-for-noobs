@@ -58,8 +58,11 @@ export default function CreatePostPage() {
         throw new Error(ErrData.message || "failed to create post :( ");
       }
 
+      const newCreatedPost = await response.json();
+
+
       toast.success("post creeeeated successfully!");
-      navigate("/");
+      navigate(`/post/${newCreatedPost.postId}`);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);

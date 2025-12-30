@@ -41,7 +41,7 @@ export async function getAllPosts(categorySlug?: string) {
       },
     },
     orderBy: {
-      createdAt: "desc",
+      createdAt: "desc", //descending (newest on top)
     },
   });
   return allPosts;
