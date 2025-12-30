@@ -33,6 +33,8 @@ export default function ArticlePage() {
   const { article } = useParams(); //grABS THE ID FROM THE URL
   const navigate = useNavigate(); //for redirecting after delete
 
+  
+
   const [post, setPost] = useState<SinglePostType | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");

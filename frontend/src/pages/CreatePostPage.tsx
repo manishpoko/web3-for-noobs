@@ -54,10 +54,10 @@ export default function CreatePostPage() {
 
       if (!response.ok) {
         const ErrData = await response.json();
-        throw new Error(ErrData.message || "failed to create post :/ ");
+        throw new Error(ErrData.message || "failed to create post :( ");
       }
 
-      alert("post createed successfully!");
+      alert("post creeeeated successfully!");
       navigate("/");
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -115,10 +115,6 @@ export default function CreatePostPage() {
 
         </div>
 
-
-
-
-
         //content input//
         <div className="">
           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -126,6 +122,7 @@ export default function CreatePostPage() {
           </label>
 
           <textarea
+          //for a long form content, we use textarea
             required
             rows={6}
             className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
@@ -134,13 +131,13 @@ export default function CreatePostPage() {
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
-        //temp. token input//
+
         <button
           type="submit"
           disabled={isSubmitting}
-          className="bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 disabled: bg-gray-400"
+          className="bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 disabled:bg-gray-400"
         >
-          {isSubmitting ? "publishing, plls wait :) " : "publish article"}
+          {isSubmitting ? "publishing, plsss wait :) " : "publish article"}
         </button>
       </form>
     </div>
