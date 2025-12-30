@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../config";
+
 //import { useAuth } from "../context/AuthContext";
 const CATEGORIES = [
   { label: "DeFi", value: "defi" },

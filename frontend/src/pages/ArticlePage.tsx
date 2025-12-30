@@ -29,9 +29,6 @@ function getUserIdFromToken() {
   }
 }
 
-
-
-
 export default function ArticlePage() {
   const { article } = useParams(); //grABS THE ID FROM THE URL
   const navigate = useNavigate(); //for redirecting after delete
