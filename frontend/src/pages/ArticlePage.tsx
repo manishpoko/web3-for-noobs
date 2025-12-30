@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../config";
 import toast from "react-hot-toast";
+import ReactMarkdown from "react-markdown"
 
 
 interface SinglePostType {
@@ -126,8 +127,11 @@ export default function ArticlePage() {
       )}
 
       //content section//
-      <div className="prose prose-lg text-gray-800 leading-relaxed whitespace-pre-wrap">
+      <div className="prose lg:prose-xl text-gray-800 leading-relaxed mx-auto">
+        <h1>TESTING BIG HEADER</h1>
+        <ReactMarkdown>
         {post.content}
+        </ReactMarkdown>
       </div>
     </div>
   );
