@@ -1,18 +1,24 @@
 //this will handle the look of the content (editor)
 
-import { useEditor, EditorContent, isActive } from '@tiptap/react'
+import { useEditor, EditorContent, type Editor as CoreEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
+import { useRef } from 'react'
 
 
 interface EditorProps {
     content: string;
     onChange: (html: string) => void;
-    editable: boolean
+    editable?: boolean
 }
 
 //the menuBar component
-const MenuBar = ( {editor} : {editor : any}) => {
+const MenuBar = ( {editor} : {editor : CoreEditor | null} ) => {
+
+    //creating a reference for the hidden file input
+    const fileInputRef = useRef<HTMLInputElement>(null) //this is simply "useRef(null)", but in typescript
+
+
     if(!editor) {
         return null
     }
@@ -23,14 +29,30 @@ const MenuBar = ( {editor} : {editor : any}) => {
             ? 'bg-black text-white' 
             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
         }`
-    
-    //image prompt handler function - 
-    const addImage = () => {
-        const url = window.prompt('URL')
-        if (url){
-            editor.chain().focus().setImage({src: url}).run()
-        }
+
+    //new fn to trigger the hidden file input
+    const handleImageClick = ()=> {
+        fileInputRef.current?.click() //if the input exists, click it.
     }
+
+    const handleFileChange =(e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        if(!file) return;
+
+        const reader = new FileReader() //create a fresh instance of a reader object using browser's inbuilt FileReader 
+        reader.onload = (event) => {
+            const base64String = event.target?.result as string
+            if(base64String) {
+                //insert image at current cursor position
+                editor.chain().focus().setImage({src: base64String}).run()
+            }
+        }
+        reader.readAsDataURL(file) //"read this file and convert it into base64"
+
+
+    }
+    
+
 
     return(
         <div className="border-b p-2 mb-2 flex gap-1 flex-wrap sticky top-0 bg-white z-10">
@@ -73,6 +95,26 @@ const MenuBar = ( {editor} : {editor : any}) => {
                 List
             </button>
 
+            <div className="w-px h-6 bg-grey-300 mx-2"></div>
+
+            <button
+            onClick={handleImageClick} className={btnClass(false)}
+            >
+                upload🖼️
+            </button>
+            
+
+            {
+                //the hidden input that actually handles the file - 
+            }
+            <input
+                type='file'
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                className='hidden' //hides it from view
+                accept='image/*'
+            />
+
         </div>
     )
 
@@ -83,10 +125,13 @@ export default function Editor({ content, onChange, editable = true} : EditorPro
 
     //creating the editor instance
     const editor = useEditor( {
-        extensions: [
+        extensions: [ //extension defines the features in our editor - here tje starterkit and image upload
             StarterKit,
-            Image, //enable image url support
-        ], //extension defines the features in our editor - here tje starterkit and image upload
+            Image.configure({
+                inline: true,
+                allowBase64: true,
+            })
+        ], 
         content : content,
         editable: editable, //if editable false - users cannot edit ==> becomes a read only editor (great for onyly viewing purposes)
         editorProps: { //controls the actual editor dom styling and features

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../config";
 import toast from "react-hot-toast";
+import Editor from "../components/Editor";
 
 //import { useAuth } from "../context/AuthContext";
 const CATEGORIES = [
@@ -21,7 +22,7 @@ export default function CreatePostPage() {
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(""); //this will now hold html (instead of markdown)
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
@@ -32,8 +33,8 @@ export default function CreatePostPage() {
     setIsSubmitting(true);
     setError("");
 
-    const storedToken = localStorage.getItem("token");
-    if (!storedToken) {
+    const token = localStorage.getItem("token");
+    if (!token) {
       setError("you must be logged in first!");
       setIsSubmitting(false);
       return;
@@ -44,7 +45,7 @@ export default function CreatePostPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${storedToken}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           title: title,
@@ -98,7 +99,7 @@ export default function CreatePostPage() {
             type="text"
             required
             className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
-            placeholder="eg - my thoughts on the future of SOL"
+            placeholder="choose a cool title "
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
@@ -121,19 +122,10 @@ export default function CreatePostPage() {
         </div>
 
         //content input//
-        <div className="">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            CONTENT
-          </label>
-
-          <textarea
-          //for a long form content, we use textarea
-            required
-            rows={6}
-            className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
-            placeholder="write your thoughts here"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+        <div className="min-h-[400px]">
+          <Editor
+          content={content}
+          onChange = {(html) => setContent(html)}
           />
         </div>
 
