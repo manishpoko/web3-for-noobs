@@ -48,8 +48,6 @@ const MenuBar = ( {editor} : {editor : CoreEditor | null} ) => {
             }
         }
         reader.readAsDataURL(file) //"read this file and convert it into base64"
-
-
     }
     
 
@@ -57,6 +55,7 @@ const MenuBar = ( {editor} : {editor : CoreEditor | null} ) => {
     return(
         <div className="border-b p-2 mb-2 flex gap-1 flex-wrap sticky top-0 bg-white z-10">
             <button
+            type='button'
                 onClick={()=> editor.chain().focus().toggleBold().run()}
                 className={btnClass(editor.isActive('bold'))}
                 //button toggles its color between isActive being true or false
@@ -64,12 +63,14 @@ const MenuBar = ( {editor} : {editor : CoreEditor | null} ) => {
                 B
             </button>
             <button
+            type='button'
             onClick={()=> editor.chain().focus().toggleItalic().run()}
             className= {btnClass(editor.isActive('italic'))}
             >
                 I
             </button>
             <button
+            type='button'
             onClick={()=> editor.chain().focus().toggleHeading({level: 1}).run()}
             className= {btnClass(editor.isActive("heading", {level: 1}))}
             //button toggles its color depending on if H1 is active or not
@@ -77,27 +78,31 @@ const MenuBar = ( {editor} : {editor : CoreEditor | null} ) => {
                 H1
             </button>
             <button
+            type='button'
             onClick={() => editor.chain().focus().toggleHeading({level: 2}).run()}
             className= {btnClass(editor.isActive('heading', {level:2 }))}
             >
                 H2
             </button>
-            <button
-            onClick={()=> editor.chain().focus().toggleBlockQuote().run()}
+            <button 
+            type='button'
+            onClick={()=> editor.chain().focus().toggleBlockquote().run()}
             className= {btnClass(editor.isActive('blockquote'))}
             >
                 " "
             </button>
             <button
+            type='button'
             onClick={()=> editor.chain().focus().toggleBulletList().run()}
             className= {btnClass(editor.isActive('bulletlist'))}
             >
                 List
             </button>
 
-            <div className="w-px h-6 bg-grey-300 mx-2"></div>
+            <div className="w-px h-6 bg-gray-300 mx-2"></div>
 
             <button
+            type='button' //stating this because by default a button click will trigger a direct submit
             onClick={handleImageClick} className={btnClass(false)}
             >
                 upload🖼️
@@ -136,7 +141,7 @@ export default function Editor({ content, onChange, editable = true} : EditorPro
         editable: editable, //if editable false - users cannot edit ==> becomes a read only editor (great for onyly viewing purposes)
         editorProps: { //controls the actual editor dom styling and features
             attributes: {
-                class: 'prose prose-lg focus:outline-none min-h-300px max-w-none p-4' //tailwind typography styles and plugins (like prose)
+                class: 'prose prose-lg focus:outline-none min-h-[300px] max-w-none p-4' //tailwind typography styles and plugins (like prose)
             },
         },
         onUpdate: ({ editor }) => {
