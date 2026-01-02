@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { API_BASE_URL } from "../config";
 import toast from "react-hot-toast";
+import Editor from "../components/Editor";
 
 export default function EditPostPage() {
   const { id } = useParams();
@@ -11,6 +12,7 @@ export default function EditPostPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   //fetch existing data (prefill the form)-
   useEffect(() => {
@@ -30,21 +32,33 @@ export default function EditPostPage() {
     e.preventDefault();
 
     const token = localStorage.getItem("token");
-    const res = await fetch(`${API_BASE_URL}/posts/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ title, content }),
-    });
-    if (res.ok) {
-      toast.success("post updated");
-      navigate(`/post/${id}`);
-    } else {
-      toast.error("failed to update!");
+    try {
+      const res = await fetch(`${API_BASE_URL}/posts/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title,
+          content, //sends the updated html
+        }),
+      });
+      if (res.ok) {
+        toast.success("post updated");
+        navigate(`/post/${id}`);
+      } else {
+        toast.error("failed to update!");
+      }
+    } catch (err) {
+      if(err instanceof Error) {
+      toast.error("update failed");
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
+
   if (loading)
     return <div className="p-10 text-white">Loading existing data...</div>;
 
@@ -59,20 +73,29 @@ export default function EditPostPage() {
             value={title} //controlled by the state
             onChange={(e) => setTitle(e.target.value)}
             className="w-full p-2 border-rounded"
+            required
           />
         </div>
         <div>
           <label className="font-bold ">content</label>
-          <textarea
-            rows={10}
-            value={content} //controlled by state
-            onChange={(e) => setContent(e.target.value)}
-            className="w-full p-2 border-rounded"
-          />
+          <Editor content={content} onChange={setContent} editable={true} />
+        </div>
+        <div className="flex gap-4 self-end">
+          <button
+            type="button"
+            onClick={() => navigate(-1)}
+            className="px-4 py-2 text-gray-600 hover:text-black"
+          >
+            cancel
+          </button>
         </div>
 
-        <button className="bg-blue-600 text-white font-bold py-3 rounded hover:bg-blue-700">
-          SAVE CHANGES
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="bg-black text-white font-bold py-3 rounded-full hover:bg-gray-800 disabled:opacity-50"
+        >
+          {isSubmitting ? "saving..." : "save changes"}
         </button>
       </form>
     </div>

@@ -34,7 +34,7 @@ export default function LoginPage() {
       }
       //if no error we capture the token from the fetched data
       const data = await response.json();
-      console.log("SERVER SENT:", data);
+      //console.log("SERVER SENT:", data); - uncomment this ifyou want to see the token in your console
 
       //storing the token in localStorage to prevent asking for it every single time in every action  -
       //   localStorage.setItem("token", data);
