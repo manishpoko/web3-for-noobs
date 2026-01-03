@@ -12,13 +12,13 @@ import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
-    <div>
-      <h1> this h1 is from App.tsx </h1>
+    <div className="font-display text-brand-primary">
+      <h1 className=""> this h1 is from App.tsx </h1>
 
       <Toaster position="top-center"/>
       <Routes>
         <Route path="/" element={<AppLayout />}>
-          <Route index element={<HomePage />} />
+          <Route index element={<HomePage />}/>
           <Route path="post/:article" element={<ArticlePage />} />
           <Route path="categories/:category" element={<CategoryPage />} />
           <Route path="/login" element={<LoginPage />} />

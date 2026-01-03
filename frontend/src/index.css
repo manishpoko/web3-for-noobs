@@ -1,3 +1,18 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@theme {
+  /* 1. TYPOGRAPHY MAPPING */
+  /* Syntax: --font-variable-name: "Font Family Name", fallback-font; */
+
+  --font-display: "Archivo", sans-serif; /* Used for Headers */
+  --font-body: "Outfit", sans-serif; /* Used for Paragraphs */
+
+  /* 2. COLOR PALETTE MAPPING */
+  /* Syntax: --color-variable-name: #hexcode; */
+
+  --color-brand-primary: #5522e0; /* Deep Purple */
+  --color-brand-surface: #bcb3ff; /* Light Purple */
+  --color-brand-peach: #ffd9a1; /* Soft Peach */
+  --color-brand-accent: #f4a60b; /* Gold/Orange */
+}
