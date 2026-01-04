@@ -33,7 +33,8 @@ export default function Navbar() {
           to="/"
           className="text-2xl font-bold text-white drop-shadow-md tracking-wider"
         >
-          <h1> web3fornoobs logo </h1>
+          <h1 className= "text-6xl font-display text-brand-primary bg-brand-peach --4 text-center border-4 border-brand-accent whitespace-nowrap">Web3ForNoobs</h1>
+          <h2 className="text-shadow-black text-center">your web3 journey, simplified.</h2>
         </Link>
       </div>
 

@@ -91,7 +91,7 @@ export default function ArticlePage() {
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-xl mt-10">
-      //header here//
+      {/* //header here// */}
       <div className="border-b pb-4 mb-6">
         <h1 className="text-4xl font-bold text-gray-900 nb-2">{post.title}</h1>
         <div className="flex items-center text-gray-500 text-sm">
@@ -103,7 +103,7 @@ export default function ArticlePage() {
           </span>
         </div>
       </div>
-      //shows only if isOwner is true(i.e. if the owner wants to edit or delete)
+      {/* //shows only if isOwner is true(i.e. if the owner wants to edit or delete) */}
       {isOwner && (
         <div className="flex gap-2">
           <button
@@ -120,7 +120,7 @@ export default function ArticlePage() {
           </button>
         </div>
       )}
-      //content section//
+      {/* //content section// */}
       <div className="prose prose-lg max-w-none"
         dangerouslySetInnerHTML = {{ __html: post.content }}>
         

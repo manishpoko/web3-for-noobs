@@ -26,8 +26,8 @@ export default function CategoryCard(categoryCard: CategoryCard) {
 
                 "
     >
-      <span className="bg-brand-accent font-retro text-xs border-2 border-black px-2 py-1 mb-4 inline-block uppercase">
-        LEVEL: {categoryCard.title}
+      <span className="bg-brand-accent font-retro text-xs border-2 border-black px-2 py-2 mb-6 inline-flex items-center uppercase ">
+        LEVEL: noob
       </span>
 
       <div className=" text-3xl font-display text-brand-primary mb-3 uppercase tracking-tight">

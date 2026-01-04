@@ -13,7 +13,7 @@ import { Toaster } from "react-hot-toast";
 function App() {
   return (
     <div>
-      <h1 className="text-4xl font-display text-brand-primary bg-brand-peach --4 text-center border-4 border-brand-accent"> this h1 is from App.tsx </h1>
+      {/* <h1 className="text-4xl font-display text-brand-primary bg-brand-peach --4 text-center border-4 border-brand-accent"> </h1> */}
 
       <Toaster position="top-center"/>
       <Routes>
