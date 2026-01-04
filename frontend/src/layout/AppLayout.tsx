@@ -7,15 +7,13 @@ export default function AppLayout() {
 
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-r from-amber-400 to-teal-400">
+    <div className="min-h-screen flex flex-col bg-transparent text-gray-900 font-body">
 
-
-      //updated navbar//
       <Navbar/>
-      <main className="grow p-4">
+      <main className="flex-1 container mx-auto px-4 py-8">
         <Outlet/> 
       </main>
-      <footer className="p-4 bg-cyan-600 border-b border-gray-700">this is the footer</footer>
+      <footer className="p-4 bg-brand-peach border-b border-gray-700">this is the footer</footer>
     </div>
   );
 }

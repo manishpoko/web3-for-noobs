@@ -5,8 +5,9 @@
   /* 1. TYPOGRAPHY MAPPING */
   /* Syntax: --font-variable-name: "Font Family Name", fallback-font; */
 
-  --font-display: "Archivo", sans-serif; /* Used for Headers */
-  --font-body: "Outfit", sans-serif; /* Used for Paragraphs */
+  --font-display: "Changa One", sans-serif; /* Used for Headers */
+  --font-body: "M PLUS Code Latin", monospace; /* Used for Paragraphs */
+  --font-retro: "Press Start 2P", cursive;
 
   /* 2. COLOR PALETTE MAPPING */
   /* Syntax: --color-variable-name: #hexcode; */
@@ -15,4 +16,20 @@
   --color-brand-surface: #bcb3ff; /* Light Purple */
   --color-brand-peach: #ffd9a1; /* Soft Peach */
   --color-brand-accent: #f4a60b; /* Gold/Orange */
+  --color-brand-pop: #FFF1F1; /* light-cream */
+}
+
+@layer base{
+    body {
+        font-family: var(--font-body);
+        background-color: var(--color-brand-surface);
+        color: #1a202c;
+        /* default color text (gray-900) */
+    }
+
+    h1,h2,h3,h4,h5 {
+        font-family: var(--font-display);
+        font-weight: 400; 
+    }
+
 }
