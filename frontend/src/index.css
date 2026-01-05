@@ -8,6 +8,7 @@
   --font-display: "Changa One", sans-serif; /* Used for Headers */
   --font-body: "M PLUS Code Latin", monospace; /* Used for Paragraphs */
   --font-retro: "Press Start 2P", cursive;
+  --font-reading: "Outfit", sans-serif; 
 
   /* 2. COLOR PALETTE MAPPING */
   /* Syntax: --color-variable-name: #hexcode; */

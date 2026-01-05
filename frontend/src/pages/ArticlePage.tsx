@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../config";
 import toast from "react-hot-toast";
+import DOMPurify from "dompurify"
 
 interface SinglePostType {
   postId: string;
@@ -90,10 +91,10 @@ export default function ArticlePage() {
   const isOwner = currentUserId === post.authorId; //returns true if currenUserId matches with the id of the author(from the backend)
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-xl mt-10">
+    <div className="max-w-4xl lg:max-w-6xl mx-auto p-6 bg-white shadow-lg rounded-xl mt-10">
       {/* //header here// */}
       <div className="border-b pb-4 mb-6">
-        <h1 className="text-4xl font-bold text-gray-900 nb-2">{post.title}</h1>
+        <h1 className="text-4xl font-bold text-gray-900 nb-2 text-center">{post.title}</h1>
         <div className="flex items-center text-gray-500 text-sm">
           <span className="font-semibold text-indigo-600 mr-2">
             by {post.author?.username || "unknown author"}
@@ -121,8 +122,47 @@ export default function ArticlePage() {
         </div>
       )}
       {/* //content section// */}
-      <div className="prose prose-lg max-w-none"
-        dangerouslySetInnerHTML = {{ __html: post.content }}>
+      <div className="
+      prose prose-lg md:prose-xl max-w-none
+      mt-12
+      
+      //typography(minimalist for content)
+      font-reading //the clean outfit font we imported
+      text-gray-800
+      leading-relaxed //this increases line height
+      tracking-wide //more gap b/w letters
+
+      //headings with the retro theme
+      prose-headings:font-display
+      prose-headings:text-black
+      prose-headings:uppercase
+      prose-headings:mt-12
+      prose-headings:mb-
+
+      //paragraphs clean and readable
+      prose-p:mb-6 
+
+      // links(minimalist but with brand theme)
+      prose-a:text-black prose-a:font-semibold prose-a:no-underline
+      prose-a:border-b-2 prose-a:border-brand-primary
+      hover:prose-a:bg-brand-primary hover:prose-a:text-white prose-a:transition-all
+
+      //blockquotes(editorial style)
+      prose-blockquote:border-l-4 prose-blockquote:border-brand-accent
+      prose-blockquote:bg-gray-500 prose-blockquote:p-6 prose-blockquote:italic
+      prose-blockquote:rounded-r-lg
+
+      //images(retro border, but minimalistic)
+      prose-img:rounded-md prose-img:border-2 prose-img:border-black
+      prose-img:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
+      
+      "
+        dangerouslySetInnerHTML = {{ __html: DOMPurify.sanitize(post.content) }}>
+          {/* 
+          -dangerourslySetInnerHTMl is to tell react to treat the entire chunk as a html rather than normal plaintext.
+          
+          -the domPurify.sanitize() is the cleaner that strips out any maliciou code from the text (eg a hacker script) */
+          }
         
       </div>
     </div>
