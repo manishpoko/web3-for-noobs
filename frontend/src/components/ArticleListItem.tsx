@@ -14,7 +14,7 @@ export default function ArticleListItem(props: ArticleListItemProps){
   return (
     <Link to={`/post/${props.id}`}>
       <div className="p-4 border-b hover:bg-gray-50 cursor-pointer">
-        <h3 className="font-bold text-lg">{props.title}</h3>
+        <h3 className=" text-lg text-brand-primary">{props.title}</h3>
       </div>
     </Link>
   );

@@ -34,7 +34,7 @@ export default function Navbar() {
           className="text-2xl font-bold text-white drop-shadow-md tracking-wider"
         >
           <h1 className= "text-6xl font-display text-brand-primary bg-brand-peach --4 text-center border-4 border-brand-accent whitespace-nowrap">Web3ForNoobs</h1>
-          <h2 className="text-shadow-black text-center">your web3 journey, simplified.</h2>
+          <h2 className="text-shadow-black text-center py-2">your web3 journey, simplified.</h2>
         </Link>
       </div>
 

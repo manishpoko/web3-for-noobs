@@ -54,7 +54,7 @@ export default function HomePage() {
 
   return (
     <div className=" ">
-        <h1 className="p-4 text-3xl ">mr noob, pick your card-</h1>
+        <h1 className="p-6  text-3xl ">mr noob, pick your card-</h1>
 
         <div className="  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4 mb-4 max-w-7xl mx-auto">
             {MOCK_CATEGORIES.map((categ) => (

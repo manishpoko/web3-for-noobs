@@ -13,7 +13,7 @@ export default function AppLayout() {
       <main className="flex-1 container mx-auto px-4 py-8">
         <Outlet/> 
       </main>
-      <footer className="p-4 bg-brand-peach border-b border-gray-700">this is the footer</footer>
+      <footer className="p-4 bg-brand-peach border-b border-gray-700 text-center">connect- <a href="https://x.com/manishpoko"> @manishpoko</a></footer>
     </div>
   );
 }
