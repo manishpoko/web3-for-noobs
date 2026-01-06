@@ -23,6 +23,7 @@ export default function CreatePostPage() {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState(""); //this will now hold html (instead of markdown)
+  const [description, setDescription] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
@@ -51,6 +52,7 @@ export default function CreatePostPage() {
           title: title,
           content: content,
           slug: category, //the category tag (eg defi)
+          description //latest addition!
         }),
       });
 
@@ -103,6 +105,24 @@ export default function CreatePostPage() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
+        </div>
+        <div className="">
+          <label className="block font-retro text-xs mb-2">
+            DESCRIPTION
+          </label>
+          <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          maxLength={200}
+          rows={3}
+          className=" w-full border-4 border-black p-4 font-reading text-gray-800 focus:outline-none focus:bg-brand-peach resize-none"
+          placeholder="give an idea of what this is about"
+
+          />
+          {/* character-count helper */}
+          <div className="text-right font-retro text-[10px] text-gray-500 mt-1">
+            {description.length}
+          </div>
         </div>
 
         //category type (dropdown)

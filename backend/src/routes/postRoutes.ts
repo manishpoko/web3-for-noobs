@@ -15,18 +15,18 @@ const router = Router();
 
 // full path for the below router  will be - /api/posts/create
 router.post("/", authMiddleware, async (req: AuthRequest, res: Response) => {
-  const { title, content, slug } = req.body;
+  const { title, content, slug, description } = req.body;
 
   const authorId = req.userId!; //we get the userId as a token that was decoded using authMiddleware
 
-  if (!title || !content || !slug) {
+  if (!title || !content || !slug || !description) {
     return res.status(400).json({
-      message: "title, content and category are required",
+      message: "title, content, category and description are required",
     });
   }
 
   try {
-    const postResult = await createPost({ title, content, slug, authorId });
+    const postResult = await createPost({ title, content, slug, authorId, description });
     return res.status(200).json(postResult);
   } catch (error) {
     return res.status(400).json({ message: "error posting!" });
@@ -91,14 +91,14 @@ router.put(
   "/:postId",
   authMiddleware,
   async (req: AuthRequest, res: Response) => {
-    const { title, content } = req.body;
+    const { title, content, description } = req.body;
     const { postId } = req.params;
     const userId = req.userId; //id of the person logged in
 
-    if (!title && !content) {
+    if (!title && !content && !description) {
       return res
         .status(400)
-        .json({ message: "please provide title or content to update" });
+        .json({ message: "please provide title, content or description to update" });
     }
     if (!postId) {
       return res.status(400).json({ message: "POST ID is required" });
@@ -123,7 +123,7 @@ router.put(
           .json({ message: "you are not authorised to edit this" });
       }
 
-      const updatedPostResult = await updatePost(postId, { title, content });
+      const updatedPostResult = await updatePost(postId, { title, content, description });
       return res.status(200).json(updatedPostResult);
     } catch (error) {
       console.error("updated error - ", error);

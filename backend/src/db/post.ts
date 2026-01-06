@@ -5,10 +5,11 @@ interface PostInput {
   content: string;
   authorId: string;
   slug: string; //this will be the category filter, eg- a post belonging to "DEFI"
+  description: string
 }
 
 export async function createPost(input: PostInput) {
-  const { title, content, slug, authorId } = input;
+  const { title, content, slug, authorId, description } = input;
 
   const newPost = await prisma.post.create({
     data: {
@@ -16,6 +17,7 @@ export async function createPost(input: PostInput) {
       content,
       authorId,
       slug,
+      description
     },
   });
   return newPost;
@@ -33,6 +35,7 @@ export async function getAllPosts(categorySlug?: string) {
       content: true,
       slug: true, //this is useful here
       createdAt: true,
+      description: true,
 
       author: {
         select: {
@@ -73,9 +76,9 @@ export async function deletePost(postId: string) {
 
 export async function updatePost(
   postId: string,
-  input: { title: string; content: string }
+  input: { title?: string; content?: string; description?: string }
 ) {
-  const { title, content } = input;
+  const { title, content, description } = input;
   const updatedPost = await prisma.post.update({
     where: {
       postId: postId,
@@ -83,6 +86,7 @@ export async function updatePost(
     data: {
       title: title,
       content: content,
+      description: description
     },
   });
   return updatedPost;

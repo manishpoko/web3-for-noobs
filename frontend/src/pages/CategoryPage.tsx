@@ -7,6 +7,7 @@ export interface LocalPostType {
   postId: string;
   title: string;
   slug?: string;
+  description?: string //an idea of what the article is about (added later)
 }
 
 const CategoryPage = () => {
@@ -48,7 +49,7 @@ const CategoryPage = () => {
     return (
       //the categoryPage component will render the list components under <ArticleList posts = {categoryPost}/>
 
-      <div className="  grid grid-cols-1 sm:grid-cols-4 gap-4 p-4 mb-4 max-w-7xl mx-auto">
+      <div className="  max-w-7xl mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold ">CATEGORY: {params.category}</h1>
         <ArticleList posts= {posts} />
       </div>

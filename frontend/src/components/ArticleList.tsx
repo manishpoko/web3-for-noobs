@@ -10,17 +10,17 @@ interface ArticleListProps {
 
 export default function ArticleList({ posts }: ArticleListProps) {
   return (
-    <div>
-      <ul>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
         {posts.map((post) => (
           <ArticleListItem 
             key={post.postId} 
             id={post.postId} 
-            title={post.title} 
+            title={post.title}
+            description={post.description} 
             slug={post.slug || ""} // Fallback if slug is missing
           />
         ))}
-      </ul>
     </div>
   );
 }

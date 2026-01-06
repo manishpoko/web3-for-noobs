@@ -11,6 +11,7 @@ export default function EditPostPage() {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [description, setDescription] = useState("")
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -22,6 +23,7 @@ export default function EditPostPage() {
 
       setTitle(data.title);
       setContent(data.content);
+      setDescription(data.description || "")
       setLoading(false);
     };
     fetchPost();
@@ -30,6 +32,7 @@ export default function EditPostPage() {
   //handle update (set PUT requests)
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true) //start loading state
 
     const token = localStorage.getItem("token");
     try {
@@ -42,6 +45,7 @@ export default function EditPostPage() {
         body: JSON.stringify({
           title,
           content, //sends the updated html
+          description //new addition!
         }),
       });
       if (res.ok) {
@@ -60,31 +64,50 @@ export default function EditPostPage() {
   };
 
   if (loading)
-    return <div className="p-10 text-white">Loading existing data...</div>;
+    return <div className="text-center mt-20 font-retro text-xl animate-pulse text-brand-primary">Loading existing data...</div>;
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl mt-10">
-      <h1 className="text-2xl font-bold mb-6">edit post</h1>
-      <form onSubmit={handleUpdate} className="flex flex-col gap-4">
+    <div className="max-w-4xl mx-auto p-4 py-8 ">
+      <h1 className="text-4xl font-display text-brand-primary mb-8 text-center uppercase">edit post</h1>
+      <form onSubmit={handleUpdate} className="space-y-6">
         <div>
-          <label className="font-bold">title</label>
+          <label className="block font-retro text-xs mb-2">title</label>
           <input
             type="text"
             value={title} //controlled by the state
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-2 border-rounded"
+            className="w-full border-4 border-black p-4 font-display text-xl focus:outline-none focus:bg-brand-peach"
             required
           />
         </div>
         <div>
-          <label className="font-bold ">content</label>
+          <label 
+          className="black font-retro text-xs mb-2">description</label>
+          <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          maxLength={200}
+          rows={3}
+          className="
+          w-full border-4 border-black p-4 font-reading text-gray-800 focus:outline-none focus:bg-brand-peach resize-none
+          "
+          placeholder="describe your piece in a few words"
+          />
+          <div className="text-right font-retro text-[10px] text-gray-500 mt-1">
+            {description.length}/200 chars
+          </div>
+        </div>
+
+        {/* editor stuff--- */}
+        <div>
+          <label className="block font-retro text-xs mb-2 ">content</label>
           <Editor content={content} onChange={setContent} editable={true} />
         </div>
-        <div className="flex gap-4 self-end">
+        <div className="flex gap-4 pt-4">
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="px-4 py-2 text-gray-600 hover:text-black"
+            className="flex-1 font-retro text-xs py-4 border-4 border-black hover:bg-gray-100 transition-all"
           >
             cancel
           </button>
@@ -93,7 +116,7 @@ export default function EditPostPage() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="bg-black text-white font-bold py-3 rounded-full hover:bg-gray-800 disabled:opacity-50"
+          className="flex-[2] bg-brand-primary text-white font-retro py-4 border-4 border-black shadow-[4px_4px_0px_0px_black] hover:translate-y-1 hover:shadow-none transition-all disabled:opacity-50 "
         >
           {isSubmitting ? "saving..." : "save changes"}
         </button>
