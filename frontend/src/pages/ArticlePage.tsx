@@ -94,13 +94,14 @@ export default function ArticlePage() {
     <div className="max-w-4xl lg:max-w-6xl mx-auto p-6 bg-white shadow-lg rounded-xl mt-10">
       {/* //header here// */}
       <div className="border-b pb-4 mb-6">
-        <h1 className="text-4xl font-bold text-gray-900 nb-2 text-center">{post.title}</h1>
-        <div className="flex items-center text-gray-500 text-sm">
+        <h1 className="text-4xl font-bold text-gray-900 mb-2 text-center">{post.title}</h1>
+        <div className="flex justify-center items-center text-gray-500 text-sm">
           <span className="font-semibold text-indigo-600 mr-2">
             by {post.author?.username || "unknown author"}
           </span>
-          <span className="">
-            {new Date(post.createdAt).toLocaleDateString()}
+          <span className="mx-2">•</span>
+          <span className=""> 
+             { new Date(post.createdAt).toLocaleDateString()}
           </span>
         </div>
       </div>
@@ -123,8 +124,11 @@ export default function ArticlePage() {
       )}
       {/* //content section// */}
       <div className="
+      // layout - center the block:-
       prose prose-lg md:prose-xl max-w-none
-      mt-12
+       mx-auto
+
+       mt-12
       
       //typography(minimalist for content)
       font-reading //the clean outfit font we imported
@@ -155,6 +159,7 @@ export default function ArticlePage() {
       //images(retro border, but minimalistic)
       prose-img:rounded-md prose-img:border-2 prose-img:border-black
       prose-img:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
+      prose-img:mx-auto
       
       "
         dangerouslySetInnerHTML = {{ __html: DOMPurify.sanitize(post.content) }}>
