@@ -24,9 +24,10 @@ export default function Signup() {
             method: "POST",
             headers: {"Content-Type" : "application/json"},
             body: JSON.stringify(inputs)
-        }); //res only has the response object (it is the envelope only)
+        }); //we send data to backend here (username, email, etc)
+        // res only has the response object (it is the envelope only)
 
-        const data = await res.json(); //actual backend data appears here
+        const data = await res.json(); //actual backend data appears here (receiving part)
         if(res.ok) {
             login(data.jwt); //this updates the global state and saves to localstorage thanks to useContext
 
@@ -121,12 +122,12 @@ export default function Signup() {
                             disabled:opacity-50
                         "
                     >
-                        {isLoading ? "LOADING..." : "INSERT COIN (SIGN UP)"}
+                        {isLoading ? "LOADING..." : "SIGN UP"}
                     </button>
                 </form>
 
                 <div className="mt-6 text-xs font-body">
-                    ALREADY A PLAYER? <Link to="/signin" className="font-bold underline decoration-brand-pop hover:text-brand-primary">CONTINUE GAME</Link>
+                    ALREADY A PLAYER? <Link to="/login" className="font-bold underline decoration-brand-pop hover:text-brand-primary">CONTINUE GAME</Link>
                 </div>
             </div>
 

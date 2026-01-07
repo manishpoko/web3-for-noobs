@@ -34,10 +34,10 @@ export async function createUser(input: SignupInput) {
   const hashedPassword = await bcrypt.hash(password, saltRounds);
   const newUser = await prisma.user.create({
     data: { email: email, password: hashedPassword, username: username },
-  });
+  }); //defining newuser properties
 
   const payload = {userId: newUser.id}; //generate token immediately on signup itself (no need to redirect to login page again)
-  const token = jwt.sign(payload, secretKey, {expiresIn: "12h"})
+  const token = jwt.sign(payload, secretKey, {expiresIn: "12h"}) //the token will have these attributes in it
 
   return {newUser, token};
 }

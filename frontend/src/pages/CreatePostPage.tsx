@@ -92,7 +92,7 @@ export default function CreatePostPage() {
       )}
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        //title input//
+        {/* title input */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             TITLE
@@ -125,7 +125,7 @@ export default function CreatePostPage() {
           </div>
         </div>
 
-        //category type (dropdown)
+        {/* //category type (dropdown) */}
         <div>
             <label className="block text-sm font-bold text-gray-700 mb-1">CATEGORY
             </label>
@@ -141,7 +141,7 @@ export default function CreatePostPage() {
 
         </div>
 
-        //content input//
+        {/* //content input// */}
         <div className="min-h-[400px]">
           <Editor
           content={content}
