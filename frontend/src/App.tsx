@@ -7,6 +7,7 @@ import CreatePostPage from "./pages/CreatePostPage";
 import LoginPage from "./pages/LoginPage";
 import EditPostPage from "./pages/EditPostPage";
 import PrivateRoute from "./components/PrivateRoute";
+import SignupPage from "./pages/SignupPage";
 
 import { Toaster } from "react-hot-toast";
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="post/:article" element={<ArticlePage />} />
           <Route path="categories/:category" element={<CategoryPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
 
           {/* private routes for admin only */}
           <Route element={<PrivateRoute />}>

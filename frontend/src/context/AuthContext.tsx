@@ -26,6 +26,7 @@ export function AuthProvider({children}: {children: ReactNode}) {
         localStorage.setItem("token", token)
         setIsLoggedIn(true)
     }
+    
 
     //logout context logic
     const logout = ()=> {

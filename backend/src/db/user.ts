@@ -14,6 +14,9 @@ const saltRounds = 10;
 
 import jwt from 'jsonwebtoken';
 
+
+const secretKey = process.env.JWT_SECRET ||             "a_fallback_secret_key";
+
 interface SignupInput {
   email: string;
   password: string;
@@ -33,7 +36,10 @@ export async function createUser(input: SignupInput) {
     data: { email: email, password: hashedPassword, username: username },
   });
 
-  return newUser;
+  const payload = {userId: newUser.id}; //generate token immediately on signup itself (no need to redirect to login page again)
+  const token = jwt.sign(payload, secretKey, {expiresIn: "12h"})
+
+  return {newUser, token};
 }
 
 export async function loginUser(input: LoginInput) {
@@ -62,9 +68,8 @@ export async function loginUser(input: LoginInput) {
       //password is correct, proceed to login - jwt sign here:
       const payload = {userId: emailExists.id} //assigning the unique user id fetched during login (using select)
 
-      const secretKey = process.env.JWT_SECRET || "a_fallback_secret_key";
 
-      const token = jwt.sign(payload, secretKey, {expiresIn: "1h"})
+      const token = jwt.sign(payload, secretKey, {expiresIn: "12h"})
       return token; //this is imp. the entire function basically is to return the jwt token here    
     } else {
       throw new Error("invalid password") ;

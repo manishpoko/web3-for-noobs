@@ -20,10 +20,15 @@ router.post("/signup",  async (req: Request, res: Response) => {
   }
   try {
     const newUserResult = await createUser({email, password, username});
-    return res.status(200).json(newUserResult); //this will return a json object with entered details a/t schema of user
+    return res.status(200).json({
+      message: "user created successfully",
+      jwt: newUserResult.token, //send the token to the frontend
+      user: newUserResult.newUser
+
+    }); //this will return a json object with entered details a/t schema of user
 
   } catch (error) {
-    return res.status(400).json({message: (error as Error).message})
+    return res.status(400).json({message: "signup failed"})
 
     
   }
