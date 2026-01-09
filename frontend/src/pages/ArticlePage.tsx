@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect,  } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../config";
 import toast from "react-hot-toast";
 import DOMPurify from "dompurify"
+import { useQuery,  } from "@tanstack/react-query";
 
 interface SinglePostType {
   postId: string;
@@ -30,43 +31,47 @@ function getUserIdFromToken() {
 }
 
 export default function ArticlePage() {
-  const { article } = useParams(); //grABS THE ID FROM THE URL
+  const  {article}  = useParams(); //grABS THE ID FROM THE URL
   const navigate = useNavigate(); //for redirecting after delete
-
-  const [post, setPost] = useState<SinglePostType | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
   const currentUserId = getUserIdFromToken(); //storing the current user id
 
-  useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const res = await fetch(`${API_BASE_URL}/posts/${article}`);
-        if (!res.ok) {
-          throw new Error("post not found :(");
-        }
-        const data = await res.json();
-        setPost(data);
-      } catch (err) {
-        setError("could not load article");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    if (article) {
-      fetchPost();
+  const {isPending, error, data } = useQuery<SinglePostType>({
+    queryKey: ['post', article],
+
+    queryFn: async()=> {
+      const response = await fetch(`${API_BASE_URL}/posts/${article}`)
+      if(!response.ok) {
+        throw new Error("error fetching the article")
+      }
+      return await response.json();
+
+    },
+    retry: false, //dont retry if its a 404 (no use)
+
+  })
+  if(isPending) {
+    return (
+      <div className="text-center mt-20 font-retro text-xl animate-pulse text-brand-primary">
+      loading data...
+      </div>
+    )
+  }
+    if (error){
+          return <div className="text-center p-10 text-red-500">{error.message}</div>;
     }
-  }, [article]);
+
+    const post = data;
 
   //function to delete a post(only by the post author and not anyone else )
   const handleDelete = async () => {
     if (!confirm("are you sure you want to delete this post?")) return; //this means if the user doesnt confirm to delete post, returrn
+    
 
     try {
       const token = localStorage.getItem("token");
+      
       const res = await fetch(`${API_BASE_URL}/posts/${post?.postId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
@@ -82,11 +87,9 @@ export default function ArticlePage() {
     }
   };
 
-  if (loading)
-    return <div className="text-center p-10">Loading article...</div>;
-  if (error)
-    return <div className="text-center p-10 text-red-500">{error}</div>;
-  if (!post) return <div className="text-center p-10">Post not found.</div>;
+
+
+
 
   const isOwner = currentUserId === post.authorId; //returns true if currenUserId matches with the id of the author(from the backend)
 

@@ -15,37 +15,9 @@ export interface LocalPostType {
 const CategoryPage = () => {
   const params = useParams(); //grabs the slug (eg /defi) to give to useeffect
 
-  // //need a posts variable to hold list of articles returned from API
-
-  // const [posts, setPosts] = useState<LocalPostType[]>([]);
-
-  // const [isLoading, setIsLoading] = useState(true);
-
-  // //useeffect fires and runs the network call to fetch the "defi" category, and stores the data in categoryPost
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   const fetchData = async () => {
-  //     try {
-  //       //fetches the data from the backend via an api call-
-  //       const response = await fetch(`${API_BASE_URL}/posts?category=${params.category}`);
-  //       if (!response.ok) {
-  //         throw new Error(`Failed to fetch postss: ${response.status}`);
-  //       }
-  //       //response.ok returns true only when status is 200-300 range
-
-  //       const categoryData = await response.json();
-  //       console.log("📦 Data from Backend:", categoryData); // 👈 Add this line!
-  //       setPosts(categoryData);
-  //     } catch {
-  //       console.error("error in fetching data");
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-  //   fetchData();
-  // }, [params.category]);
 
 
+//we have replaced the useEffect, usestate hooks with useQuery to do the same job faster - define posts, fetch from the backend and render as items inside a category in the frontend-
 const { isPending, error, data } = useQuery <LocalPostType[]>({
   //the key (eg - posts: defi)
   queryKey: ['posts', params.category],
