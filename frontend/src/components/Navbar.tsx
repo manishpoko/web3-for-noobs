@@ -31,10 +31,10 @@ export default function Navbar() {
       <div className="w-1/3 flex justify-center">
         <Link
           to="/"
-          className="text-2xl  font-bold text-white drop-shadow-md tracking-wider"
+          className="text-2xl  font-bold text-black drop-shadow-md tracking-wider"
         >
-          <h1 className= "lg:text-5xl md:text-4xl sm:text-2xl font-retro text-brand-primary bg-brand-peach --4 p-4 text-center border-4 border-brand-accent whitespace-nowrap">Web3ForNoobs</h1>
-          <h2 className="text-shadow-black text-center py-2">your web3 journey, simplified.</h2>
+          <h1 className= "lg:text-5xl md:text-4xl sm:text-2xl font-header text-brand-primary bg-brand-peach --4 p-4 text-center border-4 border-brand-accent whitespace-nowrap">Web3ForNoobs</h1>
+          <h2 className="text-shadow-black font-reading text-center py-2">your web3 journey, simplified.</h2>
         </Link>
       </div>
 

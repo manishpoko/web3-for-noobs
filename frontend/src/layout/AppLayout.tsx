@@ -7,7 +7,7 @@ export default function AppLayout() {
 
 
   return (
-    <div className="min-h-screen flex flex-col bg-transparent text-gray-900 font-body">
+    <div className="min-h-screen flex flex-col bg-brand-peach text-gray-900 font-body">
 
       <Navbar/>
       <main className="flex-1 container mx-auto px-4 py-8">

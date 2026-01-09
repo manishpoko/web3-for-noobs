@@ -9,6 +9,7 @@
   --font-body: "M PLUS Code Latin", monospace; /* Used for Paragraphs */
   --font-retro: "Press Start 2P", cursive;
   --font-reading: "Outfit", sans-serif; 
+  --font-header: "Oi", sans-serif;   /* new header font */
 
   /* 2. COLOR PALETTE MAPPING */
   /* Syntax: --color-variable-name: #hexcode; */
