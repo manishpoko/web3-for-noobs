@@ -1,4 +1,3 @@
-import { useEffect,  } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../config";
 import toast from "react-hot-toast";
@@ -32,11 +31,12 @@ function getUserIdFromToken() {
 
 export default function ArticlePage() {
   const  {article}  = useParams(); //grABS THE ID FROM THE URL
-  const navigate = useNavigate(); //for redirecting after delete
+  const navigate = useNavigate(); 
 
   const currentUserId = getUserIdFromToken(); //storing the current user id
 
 
+  //using rect-query for data fetching and other functions instead of useEffect etc
   const {isPending, error, data } = useQuery<SinglePostType>({
     queryKey: ['post', article],
 
@@ -71,7 +71,7 @@ export default function ArticlePage() {
 
     try {
       const token = localStorage.getItem("token");
-      
+
       const res = await fetch(`${API_BASE_URL}/posts/${post?.postId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
