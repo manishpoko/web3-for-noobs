@@ -1,5 +1,6 @@
 
 import CategoryCard from "../components/CategoryCard";
+import LatestArticleBox from "../components/LatestArticlesBox";
 
 const MOCK_CATEGORIES = [
   { 
@@ -54,7 +55,7 @@ export default function HomePage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8  ">
-        <h1 className=" text-4xl md:text-5xl font-display  mb-8 px-2 ">mr noob, pick your card-</h1>
+        <h1 className=" text-4xl md:text-5xl font-reading  mb-8 px-2 ">mr noob, pick your card-</h1>
 
         <div className="  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {MOCK_CATEGORIES.map((categ) => (
@@ -69,6 +70,14 @@ export default function HomePage() {
             ))
             
             }
+        </div>
+        <div className="flex-1 container mx-auto px-4 py-8">
+
+          <div className="">
+          <LatestArticleBox/>
+
+          </div>
+
         </div>
 
     </div>

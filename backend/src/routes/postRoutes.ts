@@ -35,8 +35,13 @@ router.post("/", authMiddleware, async (req: AuthRequest, res: Response) => {
 
 //route to get all the posts -
 router.get("/", async (req: Request, res: Response) => {
+
+
   try {
     const categorySlug = req.query.category as string | undefined; //grabbing the query (category) from the url eg- category?=defi
+
+      //for optional filters (to filter for the 'latest posts' section)
+    const limit = req.query.limit
 
     const posts = await getAllPosts(categorySlug);
     return res.status(200).json(posts);
@@ -66,6 +71,9 @@ router.get("/:postId", async (req: Request, res: Response) => {
       .json({ message: "error fetching the specified post :( " });
   }
 });
+
+
+
 
 //route to delete a post by checking its postId-
 router.delete(

@@ -23,12 +23,12 @@ export async function createPost(input: PostInput) {
   return newPost;
 }
 
-export async function getAllPosts(categorySlug?: string) {
+export async function getAllPosts(categorySlug?: string, limit?:string) {
   //if slug exists, filter by it, otherwise get everything
   const whereClause = categorySlug ? { slug: categorySlug } : {};
 
   const allPosts = await prisma.post.findMany({
-    where: whereClause,
+    where: whereClause, //if empty, it finds all posts regardless of category
     select: {
       postId: true,
       title: true,
@@ -43,9 +43,13 @@ export async function getAllPosts(categorySlug?: string) {
         },
       },
     },
+
     orderBy: {
       createdAt: "desc", //descending (newest on top)
     },
+
+    //apply limit only if reqd
+    take: limit ? parseInt(limit as string) : undefined
   });
   return allPosts;
 }
