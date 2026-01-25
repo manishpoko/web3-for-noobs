@@ -27,7 +27,7 @@ const { isPending, error, data } = useQuery <LocalPostType[]>({
     const response  = await fetch(`${API_BASE_URL}/posts?category=${params.category}`);
 
     if(!response.ok){
-      throw new Error("network response error")
+      throw new Error(`server error: ${response.status} ${response.statusText} ---this is being shown in the web page as an error --- `)
     }
     return await response.json()
   },

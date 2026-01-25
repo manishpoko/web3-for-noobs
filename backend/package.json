@@ -24,22 +24,22 @@
     "@types/node": "^24.10.1",
     "@types/pg": "^8.16.0",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
     "nodemon": "^3.1.11",
-    "prisma": "^7.1.0",
+    "prisma": "^7.3.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "tsx": "^4.21.0",
     "@prisma/adapter-pg": "^7.1.0",
     "@prisma/client": "^7.1.0",
     "@types/bcrypt": "^6.0.0",
     "@types/jsonwebtoken": "^9.0.10",
     "bcrypt": "^6.0.0",
-    "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
-    "pg": "^8.16.3"
+    "pg": "^8.16.3",
+    "tsx": "^4.21.0"
   }
 }

@@ -65,7 +65,10 @@ router.get("/:postId", async (req: Request, res: Response) => {
 
     return res.status(200).json(singlePost);
   } catch (error) {
-    console.error(error);
+    console.log("🔥 ---------------------------------------------------");
+    console.error("🔥 ERROR DETAILS:");
+    console.error(error); 
+    console.log("🔥 ---------------------------------------------------");
     return res
       .status(500)
       .json({ message: "error fetching the specified post :( " });

@@ -1,10 +1,15 @@
+
+import dotenv from "dotenv"; 
+dotenv.config();
+
 import express from "express";
+
 import cors from "cors";
 
 import authRoutes from "./routes/authRoutes.ts";
 import postRoutes from "./routes/postRoutes.ts";
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3000;
 
 //for connecting to the frontend seamlessly, we need cors enabled
 app.use(
@@ -20,7 +25,7 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log("listening from port 3001");
+  console.log("listening from the newwww port 3000");
 });
 
 app.use("/api/posts", postRoutes);
