@@ -1,3 +1,5 @@
+//post logic all here - CRUD
+
 import prisma from "./prisma.ts";
 
 interface PostInput {
@@ -48,7 +50,7 @@ export async function getAllPosts(categorySlug?: string, limit?:string) {
       createdAt: "desc", //descending (newest on top)
     },
 
-    //apply limit only if reqd
+    //apply limit (if it is applicable). we have defined this limit and categorySlug in postRoutes.ts
     take: limit ? parseInt(limit as string) : undefined
   });
   return allPosts;

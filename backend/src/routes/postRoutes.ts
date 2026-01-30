@@ -1,6 +1,15 @@
+
+
+
+
+
+
+
 import { Router } from "express";
 import type { Request, Response } from "express";
 
+
+//we import all the CRUD functions of our posts here as components
 import {
   createPost,
   deletePost,
@@ -38,14 +47,17 @@ router.get("/", async (req: Request, res: Response) => {
 
 
   try {
-    const categorySlug = req.query.category as string | undefined; //grabbing the query (category) from the url eg- category?=defi
+    const categorySlug = req.query.category as string ; //grabbing the query (category) from the url eg- category?=defi
 
       //for optional filters (to filter for the 'latest posts' section)
-    const limit = req.query.limit
+    const limit = req.query.limit as string; //grabbing the limit from the url
 
-    const posts = await getAllPosts(categorySlug);
+    //query conditions already defined in db/post.ts
+
+    const posts = await getAllPosts(categorySlug, limit); //both as props here to see whichever applicable
     return res.status(200).json(posts);
   } catch (error) {
+    console.error(error)
     return res.status(500).json({ message: "error fetching the posts :(" });
   }
 });
