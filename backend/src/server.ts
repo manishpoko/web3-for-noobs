@@ -14,7 +14,7 @@ const port = process.env.PORT || 3000;
 //for connecting to the frontend seamlessly, we need cors enabled
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://web3-for-noobs.vercel.app" ],
+    origin: ["http://localhost:5173", "https://web3-for-noobs-omega.vercel.app", "https://web3-for-noobs.vercel.app" ],
     credentials: true,
   })
 );
