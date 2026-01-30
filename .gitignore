@@ -14,3 +14,4 @@ backend/roadmap.txt
 
 # Build outputs (not needed in repo)
 /backend/dist/
+.vercel

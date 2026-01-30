@@ -33,6 +33,7 @@ const { isPending, error, data } = useQuery <LocalPostType[]>({
   },
 
   staleTime: 1000 * 60 * 5 //keep data fresh for 5 mins, but cache it forever (no time there)
+  
 
 })
 

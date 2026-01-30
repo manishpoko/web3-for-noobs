@@ -11,6 +11,7 @@ export default function LatestArticleBox() {
   }
 
   const posts = latestArticles || [];
+  
 
   return (
     <div className="mt-12 p-6 border-4 border-black bg-gray-100">

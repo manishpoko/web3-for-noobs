@@ -11,7 +11,7 @@ export const useLatestArticle = () => {
     queryFn: async () => {
       const res = await fetch(`${API_BASE_URL}/posts?limit=3`);
       if (!res.ok) {
-        throw new Error("failed to fetch latest ");
+        throw new Error(`failed to fetch latest: ${res.statusText} `);
       }
       return res.json();
     },

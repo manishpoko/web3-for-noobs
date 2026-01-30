@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log("listening from the newwww port 3000");
+  console.log("listening from the newwww port 3000, hello!!!");
 });
 
 app.use("/api/posts", postRoutes);
