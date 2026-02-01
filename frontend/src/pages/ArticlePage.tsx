@@ -7,6 +7,7 @@ import { useQuery,  } from "@tanstack/react-query";
 interface SinglePostType {
   postId: string;
   title: string;
+  slug: string;
   content: string;
   createdAt: string;
   author?: {
@@ -30,13 +31,13 @@ function getUserIdFromToken() {
 }
 
 export default function ArticlePage() {
-  const  {article}  = useParams(); //grABS THE ID FROM THE URL
+  const  {article}  = useParams(); //grABS THE ID FROM THE URL (this later changes from id to slug)
   const navigate = useNavigate(); 
 
   const currentUserId = getUserIdFromToken(); //storing the current user id
 
 
-  //using rect-query for data fetching and other functions instead of useEffect etc
+  //using rect-query for data fetching and other functions, instead of useEffect etc
   const {isPending, error, data } = useQuery<SinglePostType>({
     queryKey: ['post', article],
 

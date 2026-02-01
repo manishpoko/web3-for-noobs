@@ -12,7 +12,7 @@ export interface ArticleListItemProps {
 
 export default function ArticleListItem(props: ArticleListItemProps) {
   return (
-    <Link to={`/post/${props.id}`}>
+    <Link to={`/post/${props.slug}`}>
       <div className="p-4 cursor-pointer ">
         <h3
           className=" 
