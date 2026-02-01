@@ -31,7 +31,7 @@ function getUserIdFromToken() {
 }
 
 export default function ArticlePage() {
-  const  {article}  = useParams(); //grABS THE ID FROM THE URL (this later changes from id to slug)
+  const  {article}  = useParams(); //grABS THE slug (previously it was id) FROM THE URL 
   const navigate = useNavigate(); 
 
   const currentUserId = getUserIdFromToken(); //storing the current user id

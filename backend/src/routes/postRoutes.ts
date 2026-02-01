@@ -1,13 +1,5 @@
-
-
-
-
-
-
-
 import { Router } from "express";
 import type { Request, Response } from "express";
-
 
 //we import all the CRUD functions of our posts here as components
 import {
@@ -15,6 +7,7 @@ import {
   deletePost,
   getAllPosts,
   getSinglePost,
+  getPostById,
   updatePost,
 } from "../db/post.ts";
 import { authMiddleware } from "../middleware/authMiddleware.ts";
@@ -24,52 +17,57 @@ const router = Router();
 
 // full path for the below router  will be - /api/posts/create
 router.post("/", authMiddleware, async (req: AuthRequest, res: Response) => {
-  const { title, content, slug, description } = req.body;
+  const { title, content, category, description } = req.body;
 
   const authorId = req.userId!; //we get the userId as a token that was decoded using authMiddleware
 
-  if (!title || !content || !slug || !description) {
+  if (!title || !content || !category || !description) {
     return res.status(400).json({
       message: "title, content, category and description are required",
     });
   }
 
   try {
-    const postResult = await createPost({ title, content, slug, authorId, description });
+    const postResult = await createPost({
+      title,
+      content,
+      category,
+      authorId,
+      description,
+    });
     return res.status(200).json(postResult);
   } catch (error) {
+    console.error("create error:", error);
     return res.status(400).json({ message: "error posting!" });
   }
 });
 
 //route to get all the posts -
 router.get("/", async (req: Request, res: Response) => {
-
-
   try {
-    const categorySlug = req.query.category as string ; //grabbing the query (category) from the url eg- category?=defi
+    const categoryFilter = req.query.category as string; //grabbing the query (category) from the url
 
-      //for optional filters (to filter for the 'latest posts' section)
+    //for optional filters (to filter for the 'latest posts' section)
     const limit = req.query.limit as string; //grabbing the limit from the url
 
     //query conditions already defined in db/post.ts
 
-    const posts = await getAllPosts(categorySlug, limit); //both as props here to see whichever applicable
+    const posts = await getAllPosts(categoryFilter, limit); //both as props here to see whichever applicable
     return res.status(200).json(posts);
   } catch (error) {
-    console.error(error)
+    console.error(error);
     return res.status(500).json({ message: "error fetching the posts :(" });
   }
 });
 
-//route to get one specific post -
-router.get("/:postId", async (req: Request, res: Response) => {
-  const postId = req.params.postId;
-  if (!postId) {
-    return res.status(400).json({ message: "post Id required" });
+//route to get one specific post (from the slug in url)-
+router.get("/:slug", async (req: Request, res: Response) => {
+  const slug = req.params.slug;
+  if (!slug) {
+    return res.status(400).json({ message: "slug is required" });
   }
   try {
-    const singlePost = await getSinglePost(postId);
+    const singlePost = await getSinglePost(slug);
 
     if (!singlePost) {
       return res.status(404).json({ message: "Post not found" });
@@ -79,16 +77,13 @@ router.get("/:postId", async (req: Request, res: Response) => {
   } catch (error) {
     console.log("🔥 ---------------------------------------------------");
     console.error("🔥 ERROR DETAILS:");
-    console.error(error); 
+    console.error(error);
     console.log("🔥 ---------------------------------------------------");
     return res
       .status(500)
       .json({ message: "error fetching the specified post :( " });
   }
 });
-
-
-
 
 //route to delete a post by checking its postId-
 router.delete(
@@ -105,29 +100,30 @@ router.delete(
     } catch (error) {
       return res.status(500).json({ message: "could not delete post :( " });
     }
-  }
+  },
 );
 
-
-
+//route to update a post (by id, not slug)
 router.put(
   "/:postId",
   authMiddleware,
   async (req: AuthRequest, res: Response) => {
-    const { title, content, description } = req.body;
+    const { title, content, description, category } = req.body;
     const { postId } = req.params;
     const userId = req.userId; //id of the person logged in
 
     if (!title && !content && !description) {
       return res
         .status(400)
-        .json({ message: "please provide title, content or description to update" });
+        .json({
+          message: "please provide title, content or description to update",
+        });
     }
     if (!postId) {
       return res.status(400).json({ message: "POST ID is required" });
     }
     try {
-      const existingPost = await getSinglePost(postId);
+      const existingPost = await getPostById(postId); //we identify the post by its id here(and not slug like other get functions)
       if (!existingPost) {
         return res.status(400).json({ message: "post not found" });
       }
@@ -146,13 +142,17 @@ router.put(
           .json({ message: "you are not authorised to edit this" });
       }
 
-      const updatedPostResult = await updatePost(postId, { title, content, description });
+      const updatedPostResult = await updatePost(postId, {
+        title,
+        content,
+        description,
+      });
       return res.status(200).json(updatedPostResult);
     } catch (error) {
       console.error("updated error - ", error);
       return res.status(500).json({ message: "could not update the post :(" });
     }
-  }
+  },
 );
 
 export default router;
