@@ -19,6 +19,8 @@ const router = Router();
 router.post("/", authMiddleware, async (req: AuthRequest, res: Response) => {
   const { title, content, category, description } = req.body;
 
+  console.log("🔥 ROUTE RECEIVED BODY:", req.body); //for debugging only
+
   const authorId = req.userId!; //we get the userId as a token that was decoded using authMiddleware
 
   if (!title || !content || !category || !description) {
@@ -35,6 +37,8 @@ router.post("/", authMiddleware, async (req: AuthRequest, res: Response) => {
       authorId,
       description,
     });
+
+    console.log("🔥 DB CREATED RESULT:", postResult); //this is for debugging only
     return res.status(200).json(postResult);
   } catch (error) {
     console.error("create error:", error);
@@ -113,11 +117,9 @@ router.put(
     const userId = req.userId; //id of the person logged in
 
     if (!title && !content && !description) {
-      return res
-        .status(400)
-        .json({
-          message: "please provide title, content or description to update",
-        });
+      return res.status(400).json({
+        message: "please provide title, content or description to update",
+      });
     }
     if (!postId) {
       return res.status(400).json({ message: "POST ID is required" });

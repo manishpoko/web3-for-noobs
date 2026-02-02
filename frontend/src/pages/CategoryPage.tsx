@@ -55,7 +55,7 @@ const { isPending, error, data } = useQuery <LocalPostType[]>({
 
       <div className="  max-w-7xl mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold ">CATEGORY: {params.category}</h1>
-        <ArticleList posts= {data || []} />
+        <ArticleList posts= {data || ["no item for this list"]} />
       </div>
     );
   }

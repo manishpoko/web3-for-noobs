@@ -14,7 +14,7 @@ interface PostInput {
 }
 
 export async function createPost(input: PostInput) {
-  const { title, content, authorId, description } = input;
+  const { title, content, authorId, description, category } = input;
 
   //to generate slug from the title (for easy reading in urls and indexes)
   const generateSlug = slugify(title, {
@@ -30,6 +30,7 @@ export async function createPost(input: PostInput) {
       authorId,
       slug: generateSlug, //gets the slug generated
       description,
+      category
     },
   });
   return newPost;

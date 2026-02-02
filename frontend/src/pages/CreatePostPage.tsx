@@ -8,8 +8,8 @@ import Editor from "../components/Editor";
 const CATEGORIES = [
   { label: "DeFi", value: "defi" },
   { label: "NFTs & Art", value: "nfts-art" },
-  { label: "Security", value: "security-wallets" },
-  { label: "DAOs", value: "daos-governance" },
+  { label: "Security & Wallets", value: "security-wallets" },
+  { label: "DAOs & Governance", value: "daos-governance" },
   { label: "Layer 2s", value: "layer-2s" },
   { label: "Solana", value: "solana" },
 ];
@@ -65,7 +65,7 @@ export default function CreatePostPage() {
 
 
       toast.success("post creeeeated successfully!");
-      navigate(`/post/${newCreatedPost.postId}`);
+      navigate(`/post/${newCreatedPost.slug}`);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);

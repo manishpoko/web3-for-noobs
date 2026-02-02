@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 
-interface CategoryCard {
+interface CategoryCardInterface {
   title: string;
   description: string;
   category: string
 }
 
-export default function CategoryCard(categoryCard: CategoryCard) {
+export default function CategoryCard(categoryCard: CategoryCardInterface) {
   return (
     <Link
       to={`/categories/${categoryCard.category}`}
