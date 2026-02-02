@@ -51,8 +51,8 @@ export default function CreatePostPage() {
         body: JSON.stringify({
           title: title,
           content: content,
-          slug: category, //the category tag (eg defi)
-          description //latest addition!
+          category: category, //the category tag (eg defi)
+          description 
         }),
       });
 

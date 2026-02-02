@@ -6,10 +6,12 @@ import { useQuery } from "@tanstack/react-query";
 
 
 export interface LocalPostType {
+  
   postId: string;
   title: string;
-  slug?: string;
+  category: string;
   description?: string //an idea of what the article is about (added later)
+  slug: string
 }
 
 const CategoryPage = () => {

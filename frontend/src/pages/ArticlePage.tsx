@@ -1,13 +1,14 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../config";
 import toast from "react-hot-toast";
-import DOMPurify from "dompurify"
-import { useQuery,  } from "@tanstack/react-query";
+import DOMPurify from "dompurify";
+import { useQuery } from "@tanstack/react-query";
 
 interface SinglePostType {
   postId: string;
   title: string;
   slug: string;
+  category: string;
   content: string;
   createdAt: string;
   author?: {
@@ -31,44 +32,43 @@ function getUserIdFromToken() {
 }
 
 export default function ArticlePage() {
-  const  {article}  = useParams(); //grABS THE slug (previously it was id) FROM THE URL 
-  const navigate = useNavigate(); 
+  const params = useParams();
+  console.log("URL Params:", params); // Check the console! Is it { slug: ... } or { id: ... }?
+
+  const { slug } = useParams(); //grABS THE slug (previously it was id) FROM THE URL
+  const navigate = useNavigate();
 
   const currentUserId = getUserIdFromToken(); //storing the current user id
 
-
   //using rect-query for data fetching and other functions, instead of useEffect etc
-  const {isPending, error, data } = useQuery<SinglePostType>({
-    queryKey: ['post', article],
+  const { isPending, error, data } = useQuery<SinglePostType>({
+    queryKey: ["post", slug],
 
-    queryFn: async()=> {
-      const response = await fetch(`${API_BASE_URL}/posts/${article}`)
-      if(!response.ok) {
-        throw new Error("error fetching the article")
+    queryFn: async () => {
+      const response = await fetch(`${API_BASE_URL}/posts/${slug}`);
+      if (!response.ok) {
+        throw new Error("error fetching the article");
       }
       return await response.json();
-
     },
     retry: false, //dont retry if its a 404 (no use)
-
-  })
-  if(isPending) {
+  });
+  if (isPending) {
     return (
       <div className="text-center mt-20 font-retro text-xl animate-pulse text-brand-primary">
-      loading data...
+        loading data...
       </div>
-    )
+    );
   }
-    if (error){
-          return <div className="text-center p-10 text-red-500">{error.message}</div>;
-    }
+  if (error) {
+    return <div className="text-center p-10 text-red-500">{error.message}</div>;
+  }
 
-    const post = data;
+  const post = data;
 
   //function to delete a post(only by the post author and not anyone else )
   const handleDelete = async () => {
     if (!confirm("are you sure you want to delete this post?")) return; //this means if the user doesnt confirm to delete post, returrn
-    
 
     try {
       const token = localStorage.getItem("token");
@@ -88,24 +88,22 @@ export default function ArticlePage() {
     }
   };
 
-
-
-
-
   const isOwner = currentUserId === post.authorId; //returns true if currenUserId matches with the id of the author(from the backend)
 
   return (
     <div className="max-w-4xl lg:max-w-6xl mx-auto p-6 bg-white shadow-lg rounded-xl mt-10">
       {/* //header here// */}
       <div className="border-b pb-4 mb-6">
-        <h1 className="text-4xl font-bold text-gray-900 mb-2 text-center">{post.title}</h1>
+        <h1 className="text-4xl font-bold text-gray-900 mb-2 text-center">
+          {post.title}
+        </h1>
         <div className="flex justify-center items-center text-gray-500 text-sm">
           <span className="font-semibold text-indigo-600 mr-2">
             by {post.author?.username || "unknown author"}
           </span>
           <span className="mx-2">•</span>
-          <span className=""> 
-             { new Date(post.createdAt).toLocaleDateString()}
+          <span className="">
+            {new Date(post.createdAt).toLocaleDateString()}
           </span>
         </div>
       </div>
@@ -127,7 +125,8 @@ export default function ArticlePage() {
         </div>
       )}
       {/* //content section// */}
-      <div className="
+      <div
+        className="
       // layout - center the block:-
       prose prose-lg md:prose-xl max-w-none
        mx-auto
@@ -166,13 +165,12 @@ export default function ArticlePage() {
       prose-img:mx-auto
       
       "
-        dangerouslySetInnerHTML = {{ __html: DOMPurify.sanitize(post.content) }}>
-          {/* 
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }}
+      >
+        {/* 
           -dangerourslySetInnerHTMl is to tell react to treat the entire chunk as a html rather than normal plaintext.
           
-          -the domPurify.sanitize() is the cleaner that strips out any maliciou code from the text (eg a hacker script) */
-          }
-        
+          -the domPurify.sanitize() is the cleaner that strips out any maliciou code from the text (eg a hacker script) */}
       </div>
     </div>
   );

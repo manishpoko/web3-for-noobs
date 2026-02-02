@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 interface CategoryCard {
   title: string;
   description: string;
-  slug: string;
+  category: string
 }
 
 export default function CategoryCard(categoryCard: CategoryCard) {
   return (
     <Link
-      to={`/categories/${categoryCard.slug}`}
+      to={`/categories/${categoryCard.category}`}
       className="
                 block
                 bg-brand-pop

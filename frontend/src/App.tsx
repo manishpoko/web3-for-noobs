@@ -20,7 +20,7 @@ function App() {
       <Routes>
         <Route path="/" element={<AppLayout />}>
           <Route index element={<HomePage />}/>
-          <Route path="post/:article" element={<ArticlePage />} />
+          <Route path="post/:slug" element={<ArticlePage />} />
           <Route path="categories/:category" element={<CategoryPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />

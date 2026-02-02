@@ -18,7 +18,8 @@ export default function ArticleList({ posts }: ArticleListProps) {
             id={post.postId} 
             title={post.title}
             description={post.description} 
-            slug={post.slug || ""} // Fallback if slug is missing
+            category={post.category || ""} // Fallback if category is missing
+            slug={post.slug}
           />
         ))}
     </div>
