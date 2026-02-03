@@ -29,6 +29,7 @@ interface LoginInput {
   username?: string;
 }
 
+//signup logic (for a newuser)
 export async function createUser(input: SignupInput) {
   const { email, password, username } = input;
   const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -42,6 +43,8 @@ export async function createUser(input: SignupInput) {
   return {newUser, token};
 }
 
+
+//login logic
 export async function loginUser(input: LoginInput) {
   const { email, password } = input;
 

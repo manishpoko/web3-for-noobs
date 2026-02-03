@@ -5,6 +5,8 @@ import { API_BASE_URL } from "../config";
 import toast from "react-hot-toast";
 import Editor from "../components/Editor";
 
+import { CATEGORIES } from "../constants";
+
 export default function EditPostPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -14,6 +16,7 @@ export default function EditPostPage() {
   const [description, setDescription] = useState("")
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [category, setCategory] = useState(CATEGORIES.values)
 
   //fetch existing data (prefill the form)-
   useEffect(() => {
@@ -25,6 +28,7 @@ export default function EditPostPage() {
       setContent(data.content);
       setDescription(data.description || "")
       setLoading(false);
+      setCategory(data.category)
     };
     fetchPost();
   }, [id]);
@@ -45,7 +49,8 @@ export default function EditPostPage() {
         body: JSON.stringify({
           title,
           content, //sends the updated html
-          description //new addition!
+          description, 
+          category //just added
         }),
       });
       if (res.ok) {

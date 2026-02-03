@@ -40,7 +40,7 @@ router.post("/signup",  async (req: Request, res: Response) => {
 
 });
 
-//login logic using email and password - 
+//login route logic using email and password - 
 
 router.post("/login", async (req: Request, res: Response) => {
   const email = req.body.email;

@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../config";
 import toast from "react-hot-toast";
 import Editor from "../components/Editor";
+import CategorySelectDropdown from "../components/CategorySelectDropdown";
 
 //import { useAuth } from "../context/AuthContext";
 
 
 //imort from the constants file
-import { CATEGORIES } from "../constants";
 
 //we will have a form field here that takes the input and creates a new post in the backend using this data
 
@@ -23,7 +23,8 @@ export default function CreatePostPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  const [category, setCategory] = useState(CATEGORIES[0].value) //default value
+  const [category, setCategory] = useState("")
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -121,22 +122,9 @@ export default function CreatePostPage() {
           </div>
         </div>
 
-        {/* //category type (dropdown) */}
-        <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1">CATEGORY
-            </label>
-            <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none bg-white">
-                {CATEGORIES.map((cat) => (
-                    <option key={cat.value} value={cat.value}> 
-                        {cat.label}
-                    </option>
-                    //here value = description and label = title
-                ))}
+        {/* //select category type (dropdown) */}
+        <CategorySelectDropdown />
 
-
-            </select>
-
-        </div>
 
         {/* //content input// */}
         <div className="min-h-[400px]">

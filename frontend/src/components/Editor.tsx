@@ -130,7 +130,7 @@ export default function Editor({ content, onChange, editable = true} : EditorPro
 
     //creating the editor instance
     const editor = useEditor( {
-        extensions: [ //extension defines the features in our editor - here tje starterkit and image upload
+        extensions: [ //extension defines the features in our editor - here the starterkit and image upload
             StarterKit,
             Image.configure({
                 inline: true,
