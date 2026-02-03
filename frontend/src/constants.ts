@@ -1,11 +1,13 @@
 //this is just to store the values and labels. it has noting to do woith execution or components in react, hence the .ts instead of .tsx
 
+//this ensures a single point of control for these items (say change a label or description just from here, instead of updating two places like we did before (in homepage and createPostPage))
+
 
 export const CATEGORIES = [
   { 
     id: 1, 
-    label: "DeFi", 
-    value: "defi", // Matches your DB exactly (lowercase based on our last check)
+    label: "DeFi", //matches to "title" in homepage.tsx (by mapping)
+    value: "defi", //maps to "category" in homepage
     description: "Decentralized Finance. Learn lending, staking, and how to be your own bank.", 
     icon: "💸" 
   },

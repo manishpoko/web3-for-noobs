@@ -5,14 +5,10 @@ import toast from "react-hot-toast";
 import Editor from "../components/Editor";
 
 //import { useAuth } from "../context/AuthContext";
-const CATEGORIES = [
-  { label: "DeFi", value: "defi" },
-  { label: "NFTs & Art", value: "nfts-art" },
-  { label: "Security & Wallets", value: "security-wallets" },
-  { label: "DAOs & Governance", value: "daos-governance" },
-  { label: "Layer 2s", value: "layer-2s" },
-  { label: "Solana", value: "solana" },
-];
+
+
+//imort from the constants file
+import { CATEGORIES } from "../constants";
 
 //we will have a form field here that takes the input and creates a new post in the backend using this data
 
@@ -131,9 +127,10 @@ export default function CreatePostPage() {
             </label>
             <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none bg-white">
                 {CATEGORIES.map((cat) => (
-                    <option key={cat.value} value={cat.value}>
+                    <option key={cat.value} value={cat.value}> 
                         {cat.label}
                     </option>
+                    //here value = description and label = title
                 ))}
 
 
