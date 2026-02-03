@@ -1,11 +1,14 @@
   //the drop-down menu for selecting categories
 
 
-import { useState } from "react";
 import { CATEGORIES } from "../constants";
 
-export default function CategorySelectDropdown() {
-  const [category, setCategory] = useState(CATEGORIES[0].value);
+interface CategorySelectProps {
+    value: string;
+    onChange: (value:string) => void; //take input as a string but after the action there is no output(void)
+}
+
+export default function CategorySelectDropdown({value, onChange}:CategorySelectProps) {
 
   return (
     <div>
@@ -13,8 +16,8 @@ export default function CategorySelectDropdown() {
         CATEGORY
       </label>
       <select
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
         className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none bg-white"
       >
         {CATEGORIES.map((cat) => (

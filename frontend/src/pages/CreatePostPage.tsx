@@ -23,8 +23,7 @@ export default function CreatePostPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  const [category, setCategory] = useState("")
-
+  const [category,setCategory] = useState("")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -122,8 +121,8 @@ export default function CreatePostPage() {
           </div>
         </div>
 
-        {/* //select category type (dropdown) */}
-        <CategorySelectDropdown />
+        {/* //select category type (dropdown) (we have the state logic in this file and not in the component because components with fixed state logic cannot be used everywhere - they become rigid)*/}
+        <CategorySelectDropdown value={category} onChange={setCategory} />
 
 
         {/* //content input// */}

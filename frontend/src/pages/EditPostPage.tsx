@@ -5,7 +5,9 @@ import { API_BASE_URL } from "../config";
 import toast from "react-hot-toast";
 import Editor from "../components/Editor";
 
-import { CATEGORIES } from "../constants";
+
+import CategorySelectDropdown from "../components/CategorySelectDropdown";
+
 
 export default function EditPostPage() {
   const { id } = useParams();
@@ -16,7 +18,7 @@ export default function EditPostPage() {
   const [description, setDescription] = useState("")
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [category, setCategory] = useState(CATEGORIES.values)
+  const [category, setCategory] = useState("")
 
   //fetch existing data (prefill the form)-
   useEffect(() => {
@@ -101,6 +103,10 @@ export default function EditPostPage() {
           <div className="text-right font-retro text-[10px] text-gray-500 mt-1">
             {description.length}/200 chars
           </div>
+        </div>
+        
+        <div>
+          <CategorySelectDropdown value={category} onChange={setCategory}/>
         </div>
 
         {/* editor stuff--- */}
