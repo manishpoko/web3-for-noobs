@@ -47,7 +47,7 @@ router.post("/", authMiddleware, async (req: AuthRequest, res: Response) => {
 });
 
 //route to get a post by its id (this is above the get/slug to ensure slug doesn't get called by default)
-router.get("/id:postId", async (req: Request, res: Response) => {
+router.get("/id/:postId", async (req: Request, res: Response) => {
   const postId = req.params.postId;
   if (!postId) {
     return res.status(400).json({ message: "postId required" });
