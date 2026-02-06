@@ -16,22 +16,35 @@ export async function createPost(input: PostInput) {
   const { title, content, authorId, description, category } = input;
 
   //to generate slug from the title (for easy reading in urls and indexes)
-  const generateSlug = slugify(title, {
+  const baseSlug = slugify(title, {
     lower: true,
     strict: true,
     trim: true,
   });
+  let finalSlug = baseSlug; //assume no copies initially; 
+  let count = 1; //initial count
+
+  while (
+    await prisma.post.findUnique({
+      where: { slug: finalSlug },
+    })
+  ) {
+    finalSlug = `${baseSlug}-${count}`; //making it unique by adding a suffix "-1"; this is done to remove duplicate slugs//
+    count++;
+    //this loop goes on until findunique returns null (no similar slug exists)
+  }
 
   const newPost = await prisma.post.create({
     data: {
       title,
       content,
       authorId,
-      slug: generateSlug, //gets the slug generated
+      slug: finalSlug, //gets the unique slug 
       description,
       category,
     },
   });
+
   return newPost;
 }
 
