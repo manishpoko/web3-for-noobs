@@ -46,6 +46,24 @@ router.post("/", authMiddleware, async (req: AuthRequest, res: Response) => {
   }
 });
 
+//route to get a post by its id (this is above the get/slug to ensure slug doesn't get called by default)
+router.get("/id:postId", async (req: Request, res: Response) => {
+  const postId = req.params.postId;
+  if (!postId) {
+    return res.status(400).json({ message: "postId required" });
+  }
+  try {
+    const post = await getPostById(postId);
+    if (!post) {
+      return res.status(404).json({ message: "post not found" });
+    }
+    return res.status(200).json(post);
+  } catch (error) {
+    console.error("error fetching the post by id", error);
+    return res.status(500).json("server error");
+  }
+});
+
 //route to get all the posts -
 router.get("/", async (req: Request, res: Response) => {
   try {
@@ -148,6 +166,7 @@ router.put(
         title,
         content,
         description,
+        category,
       });
       return res.status(200).json(updatedPostResult);
     } catch (error) {

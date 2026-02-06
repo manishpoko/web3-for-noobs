@@ -1,6 +1,5 @@
 //post logic all here - CRUD
 
-
 import slugify from "../helper/slugify.ts"; //slugify is an old package,mostly compatibe with only cjs, so this is a quick fix to use it here in latest typescript code
 
 import prisma from "./prisma.ts";
@@ -30,7 +29,7 @@ export async function createPost(input: PostInput) {
       authorId,
       slug: generateSlug, //gets the slug generated
       description,
-      category
+      category,
     },
   });
   return newPost;
@@ -104,9 +103,14 @@ export async function deletePost(postId: string) {
 
 export async function updatePost(
   postId: string,
-  input: { title?: string; content?: string; description?: string },
+  input: {
+    title?: string;
+    content?: string;
+    description?: string;
+    category?: string;
+  },
 ) {
-  const { title, content, description } = input;
+  const { title, content, description, category } = input;
   const updatedPost = await prisma.post.update({
     where: {
       postId: postId,
@@ -115,6 +119,7 @@ export async function updatePost(
       title: title,
       content: content,
       description: description,
+      category: category,
     },
   });
   return updatedPost;
