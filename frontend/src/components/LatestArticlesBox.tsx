@@ -32,8 +32,7 @@ export default function LatestArticleBox() {
       </div>
 
       {/* THE GRID */}
-      {/* Note: I changed this from a flex-col to a grid to match your other layouts better, 
-          but kept the ArticleListItem usage consistent */}
+ 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.map((post) => (
           <ArticleListItem

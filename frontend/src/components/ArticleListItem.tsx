@@ -36,24 +36,24 @@ export default function ArticleListItem(props: ArticleListItemProps) {
         "
       >
         <div className="relative z-10 flex flex-col flex-grow">
-          header: Date or ID
+          {/* header: Date or ID */}
           <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2 group-hover:border-acid/30 transition-colors">
             <span className="text-xs font-mono text-gray-500 group-hover:text-acid">
               LOG_ID: {props.id.slice(0, 8)}
             </span>
           </div>
 
-          //title: Big, White, Bold
+          {/* title: Big, White, Bold */}
           <h3 className="text-xl font-bold font-mono text-white mb-3 group-hover:text-acid transition-colors leading-tight">
             {props.title}
           </h3>
 
-          //description-
+          {/* description- */}
           <p className="text-sm text-gray-400 font-sans line-clamp-3 leading-relaxed mb-6 flex-grow">
             {props.description || "No data available."}
           </p>
 
-          // Footer
+          {/* // Footer */}
           <div className="mt-auto flex items-center justify-between pt-4 border-t border-white/10 group-hover:border-acid/30 transition-colors">
              <span className="text-xs font-mono text-gray-600 group-hover:text-acid/80 transition-colors">
               [ READ_ENTRY ]
