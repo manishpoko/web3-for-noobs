@@ -1,9 +1,20 @@
+import type { ComponentProps } from "react";
 
-
-
-export function Linkedin(props: JSX.IntrinsicElements["svg"]) {
+// 1. LINKEDIN
+export function Linkedin(props: ComponentProps<"svg">) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" {...props}>
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      viewBox="0 0 24 24" 
+      width="24" 
+      height="24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeLinecap="round" 
+      strokeLinejoin="round" 
+      strokeWidth="2" 
+      {...props}
+    >
       <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
       <rect height="12" width="4" x="2" y="9" />
       <circle cx="4" cy="4" r="2" />
@@ -11,24 +22,59 @@ export function Linkedin(props: JSX.IntrinsicElements["svg"]) {
   );
 }
 
-export function Twitter(props: JSX.IntrinsicElements["svg"]) {
+// 2. TWITTER (X)
+export function Twitter(props: ComponentProps<"svg">) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" {...props}>
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      viewBox="0 0 24 24" 
+      width="24" 
+      height="24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeLinecap="round" 
+      strokeLinejoin="round" 
+      strokeWidth="2" 
+      {...props}
+    >
       <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" />
     </svg>
   );
 }
 
-// https://feathericons.dev/?search=github&iconset=feather&format=strict-tsx
-export function Github(props: JSX.IntrinsicElements["svg"]) {
+// 3. GITHUB
+export function Github(props: ComponentProps<"svg">) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" {...props}>
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      viewBox="0 0 24 24" 
+      width="24" 
+      height="24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeLinecap="round" 
+      strokeLinejoin="round" 
+      strokeWidth="2" 
+      {...props}
+    >
       <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
     </svg>
   );
 }
 
-export function Substack(props: JSX.IntrinsicElements["svg"]) {
-
+// 4. SUBSTACK (The Missing Icon)
+export function Substack(props: ComponentProps<"svg">) {
+  return (
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      viewBox="0 0 24 24" 
+      width="24" 
+      height="24" 
+      fill="currentColor" 
+      stroke="none" 
+      {...props}
+    >
+      <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z" />
+    </svg>
+  );
 }
-

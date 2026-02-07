@@ -1,64 +1,66 @@
 import { useParams } from "react-router-dom";
 import ArticleList from "../components/ArticleList";
 import { API_BASE_URL } from "../config";
-
 import { useQuery } from "@tanstack/react-query";
 
-
 export interface LocalPostType {
-  
   postId: string;
   title: string;
   category: string;
-  description?: string //an idea of what the article is about (added later)
+  description?: string;
   slug: string
 }
 
 const CategoryPage = () => {
-  const params = useParams(); //grabs the slug (eg /defi) to give to useeffect
+  const params = useParams(); 
 
-
-
-//we have replaced the useEffect, usestate hooks with useQuery to do the same job faster - define posts, fetch from the backend and render as items inside a category in the frontend-
-const { isPending, error, data } = useQuery <LocalPostType[]>({
-  //the key (eg - posts: defi)
-  queryKey: ['posts', params.category],
-  
-  //the fetcher fn - 
-  queryFn: async() => {
-    const response  = await fetch(`${API_BASE_URL}/posts?category=${params.category}`);
-
-    if(!response.ok){
-      throw new Error(`server error: ${response.status} ${response.statusText} ---this is being shown in the web page as an error --- `)
-    }
-    return await response.json()
-  },
-
-  staleTime: 1000 * 60 * 5 //keep data fresh for 5 mins, but cache it forever (no time there)
-  
-
-})
+  const { isPending, error, data } = useQuery <LocalPostType[]>({
+    queryKey: ['posts', params.category],
+    queryFn: async() => {
+      const response  = await fetch(`${API_BASE_URL}/posts?category=${params.category}`);
+      if(!response.ok){
+        throw new Error(`Server Error: ${response.status}`)
+      }
+      return await response.json()
+    },
+    staleTime: 1000 * 60 * 5 
+  })
 
   if (isPending) {
     return (
-      <div className="text-center mt-20 font-retro text-xl animate-pulse text-brand-primary">
-      loading data...
+      <div className="max-w-7xl mx-auto px-6 py-12">
+         <div className="font-mono text-acid animate-pulse tracking-widest text-xl">
+             &gt; LOADING_MODULE: {params.category?.toUpperCase()}...
+         </div>
       </div>
     )
   }
 
   if (error) {
-    return <div>error loading data : {error.message}</div>;
-  } else {
     return (
-      //the categoryPage component will render the list components under <ArticleList posts = {categoryPost}/>
-
-      <div className="  max-w-7xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold ">CATEGORY: {params.category}</h1>
-        <ArticleList posts= {data || ["no item for this list"]} />
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className="border border-red-500/30 p-4 text-red-500 font-mono">
+            [ERROR]: {error.message}
+        </div>
       </div>
     );
   }
+
+  return (
+    <div className="max-w-7xl mx-auto px-6 py-12">
+      {/* HEADER */}
+      <div className="flex items-center gap-4 mb-12">
+        <div className="h-px bg-white/20 flex-grow"></div>
+        <h1 className="text-2xl md:text-3xl font-mono font-bold text-white tracking-tight uppercase">
+          <span className="text-acid mr-3">///</span> 
+          CATEGORY_INDEX: <span className="text-acid">{params.category}</span>
+        </h1>
+        <div className="h-px bg-white/20 flex-grow"></div>
+      </div>
+
+      <ArticleList posts= {data || []} />
+    </div>
+  );
 };
 
 export default CategoryPage;

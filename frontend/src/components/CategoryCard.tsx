@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 interface CategoryCardInterface {
   title: string;
   description: string;
-  category: string
+  category: string;
 }
 
 export default function CategoryCard(categoryCard: CategoryCardInterface) {
@@ -11,38 +11,44 @@ export default function CategoryCard(categoryCard: CategoryCardInterface) {
     <Link
       to={`/categories/${categoryCard.category}`}
       className="
+                group
+                relative
                 block
-                bg-brand-pop
-                border-4 border-black
-                p-6
-                shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]
-                hover:shadow-[12px_12px_0px_0px_rgba(85,34,224,1)]
+                bg-black
+                /* Sharp Acid Border */
+                border-2 border-acid/50
+                /* The Glow Effect on Hover */
+                hover:border-acid
+                hover:shadow-[0_0_30px_-5px_rgba(204,255,0,0.3)]
                 hover:-translate-y-1
-                transition-all
+                transition-all duration-200
+                p-8
+                /* No rounded corners! Brutalist style. */
                 cursor-pointer
-                rounded-xl
                 flex flex-col
-                
-
+                overflow-hidden
                 "
     >
-      <span className="bg-brand-accent font-retro text-xs border-2 border-black px-2 py-2 mb-6 inline-flex items-center uppercase ">
-        LEVEL: noob
-      </span>
+      <div className="relative z-10">
+        {/* title */}
+        <div className="text-3xl font-mono font-bold text-white mb-4 tracking-tight group-hover:text-acid transition-colors">
+          <h1>{categoryCard.title}</h1>
+        </div>
 
-      <div className=" text-3xl font-display text-brand-primary mb-3 uppercase tracking-tight">
-        <h1>{categoryCard.title}</h1>
-      </div>
+        {/* description */}
+        <p className="text-textMuted font-mono text-sm leading-relaxed mb-12 flex-grow">
+          {categoryCard.description}
+        </p>
 
-      <p className="font-body text-gray-600 mb-8 flex-grow">
-        {categoryCard.description}
-      </p>
-
-      <div className="flex justify-between items-center mt-auto border-t-2 border-gray-100 pt-4">
-        <span className="font-retro text-[10px] text-gray-900 animate-pulse">
-          PRESS START TO ENTER
-        </span>
-        <span className="text-xl font-bold text-brand-primary">→</span>
+        {/* footer */}
+        <div className="flex justify-between items-end mt-auto border-t border-acid/20 pt-6 group-hover:border-acid/50 transition-colors">
+          <span className="font-mono text-xs text-acid/70 uppercase">
+            LEVEL: NOOB
+          </span>
+          <span className="font-mono text-sm text-acid font-bold group-hover:underline">
+            [ CLICK TO ENTER ]
+          </span>
+        </div>
       </div>
     </Link>
   );

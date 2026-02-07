@@ -14,9 +14,48 @@ import { Toaster } from "react-hot-toast";
 function App() {
   return (
     <div>
-      {/* <h1 className="text-4xl font-display text-brand-primary bg-brand-peach --4 text-center border-4 border-brand-accent"> </h1> */}
+      {/* THEMED TOASTER -with the revamoed Cyberpunk design theme
+      */}
+      <Toaster 
+        position="top-center"
+        toastOptions={{
+          className: '',
+          style: {
+            border: '1px solid #222',
+            padding: '12px 24px',
+            color: '#CCFF00',      // Acid Green Text
+            backgroundColor: '#050505', // Deep Black Background
+            fontFamily: '"Space Mono", monospace', // Tech Font
+            borderRadius: '0px',   // (No rounded corners)
+            boxShadow: '0 0 10px rgba(0,0,0,0.5)',
+            fontSize: '14px',
+            textTransform: 'uppercase',
+            letterSpacing: '1px'
+          },
+          // Customizing the success tick
+          success: {
+            iconTheme: {
+              primary: '#CCFF00',
+              secondary: 'black',
+            },
+            style: {
+               border: '1px solid #CCFF00', // Green border for success
+            }
+          },
+          // Customizing the error X
+          error: {
+            iconTheme: {
+              primary: '#ef4444', // Red
+              secondary: 'black',
+            },
+            style: {
+              border: '1px solid #ef4444', // Red border for error
+              color: '#ef4444'
+            },
+          },
+        }}
+      />
 
-      <Toaster position="top-center"/>
       <Routes>
         <Route path="/" element={<AppLayout />}>
           <Route index element={<HomePage />}/>

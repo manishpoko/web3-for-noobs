@@ -1,53 +1,51 @@
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
   const navigate = useNavigate();
-
   const { isLoggedIn, logout } = useAuth();
 
   function handleLogout() {
-    logout(); //logic straight from the useAuth hook
+    logout();
     navigate("/");
-    //we do not return anything here. this is a fn, not a component idiot!
   }
 
   return (
-    <nav className="p-4 bg-white/20 backdrop-blur-md border-b border-white/30 flex justify-between items-center shadow-sm">
-      <div className="w-1/3 ">
-        {
-          // this will be visible only if logged in, i.e., only to the admin and not to others
-          isLoggedIn && (
+    // Sharp edges, solid border, pure black background
+    <nav className="sticky top-0 z-50 w-full bg-background border-b border-white/20">
+      <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+        
+        {/* LOGO: Monospace + Blinking Cursor */}
+        <Link to="/" className="flex items-center gap-3 group">
+          <div className="w-3 h-6 bg-acid animate-pulse"></div> 
+          <h1 className="text-2xl font-mono font-bold tracking-tighter text-white">
+            WEB3<span className="text-acid">_FOR_NOOBS</span>
+          </h1>
+        </Link>
+
+        {/* RIGHT ACTIONS: Terminal style links */}
+        <div className="flex items-center gap-8">
+          {isLoggedIn && (
             <Link
               to="/create"
-              className="bg-white text-teal-600 px-4 py-2 rounded-full font-bold hover:bg-teal-50 transition shadow-sm"
+              className="hidden md:block font-mono text-sm text-textMuted hover:text-acid transition-colors"
             >
-              + NEW POST
+              [ WRITE_NEW_LOG ]
             </Link>
-          )
-        }
-      </div>
-      <div className="w-1/3 flex justify-center">
-        <Link
-          to="/"
-          className="text-2xl  font-bold text-black drop-shadow-md tracking-wider"
-        >
-          <h1 className= "lg:text-5xl md:text-4xl sm:text-2xl font-header text-brand-primary bg-brand-peach --4 p-4 text-center border-4 border-brand-accent whitespace-nowrap">Web3ForNoobs</h1>
-          <h2 className="text-shadow-black font-reading text-center py-2">your web3 journey, simplified.</h2>
-        </Link>
-      </div>
+          )}
 
-      <div className="w-1/3 flex justify-end">
-        {isLoggedIn ? (
-          <button
-            onClick={handleLogout}
-            className="cursor-pointer text-white hover:text-red-200 font-bold"
-          >
-            LOGOUT
-          </button>
-        ) : null //null because we want the logout to be seen ojnly by the logged in person (admin)
-        }
+          {isLoggedIn ? (
+            <button
+              onClick={handleLogout}
+              // Sharp acid button
+              className="font-mono text-sm bg-acid text-black font-bold px-6 py-2 hover:bg-white hover:scale-105 transition-all active:translate-y-1"
+            >
+              LOGOUT
+            </button>
+          ) : (
+             <div className="w-4"></div> 
+          )}
+        </div>
       </div>
     </nav>
   );

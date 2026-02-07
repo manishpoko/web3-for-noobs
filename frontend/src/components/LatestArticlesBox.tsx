@@ -1,26 +1,40 @@
-//the fetching logic for latest article stays here-
 import { useLatestArticle } from "../hooks/useLatestArticles";
 import ArticleListItem from "./ArticleListItem";
 
 export default function LatestArticleBox() {
-  //we take destructure the items (instead of doing const latestArticles = somethingsomething.data, we directly renamed it after destructuring - {data: latestArticles})
   const { data: latestArticles, isPending } = useLatestArticle();
 
   if (isPending) {
-    return <div className="font-retro ">loading the newest hot posts ...</div>;
+    // LOADING (Blinking cursor vibe)
+    return (
+        <div className="p-8 border border-white/10 border-l-4 border-l-acid bg-black">
+            <div className="font-mono text-acid animate-pulse">
+                &gt; SEARCHING_DATABASE...
+            </div>
+        </div>
+    );
   }
 
   const posts = latestArticles || [];
-  
 
   return (
-    <div className="mt-12 p-6 border-4 border-black bg-gray-100">
-      <h2 className="text-2xl uppercase font-display mb-6">
-        fresh from the oven:
-      </h2>
+    // CONTAINER: Minimalist Industrial
+    <div className="mt-16">
+      
+      {/* HEADER: Technical Label */}
+      <div className="flex items-center gap-4 mb-8">
+        <div className="h-px bg-white/20 flex-grow"></div>
+        <h2 className="text-xl font-mono font-bold text-white tracking-widest uppercase">
+          <span className="text-acid mr-2">///</span> 
+          INCOMING_TRANSMISSIONS
+        </h2>
+        <div className="h-px bg-white/20 flex-grow"></div>
+      </div>
 
-      <div className="flex flex-col gap-4">
-        {/* we named latestArticles as "posts" above, and that shall be mapped herw */}
+      {/* THE GRID */}
+      {/* Note: I changed this from a flex-col to a grid to match your other layouts better, 
+          but kept the ArticleListItem usage consistent */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.map((post) => (
           <ArticleListItem
             key={post.postId}
@@ -31,6 +45,13 @@ export default function LatestArticleBox() {
           />
         ))}
       </div>
+      
+      {/* Empty State Handler */}
+      {posts.length === 0 && (
+          <div className="p-8 border border-white/10 border-l-4 border-l-red-500 bg-black font-mono text-gray-500">
+              [!] NO_LOGS_FOUND
+          </div>
+      )}
     </div>
   );
 }

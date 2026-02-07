@@ -5,25 +5,15 @@ import toast from "react-hot-toast";
 import Editor from "../components/Editor";
 import CategorySelectDropdown from "../components/CategorySelectDropdown";
 
-//import { useAuth } from "../context/AuthContext";
-
-
-//imort from the constants file
-
-//we will have a form field here that takes the input and creates a new post in the backend using this data
-
 export default function CreatePostPage() {
-
-    //const {token} = useAuth(); //connect to the global auth state (optional, may be useful in future)
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState(""); //this will now hold html (instead of markdown)
+  const [content, setContent] = useState(""); 
   const [description, setDescription] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
-
-  const [category,setCategory] = useState("")
+  const [category, setCategory] = useState("defi"); // Default to defi or empty
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,7 +22,7 @@ export default function CreatePostPage() {
 
     const token = localStorage.getItem("token");
     if (!token) {
-      setError("you must be logged in first!");
+      setError("AUTHENTICATION_REQUIRED");
       setIsSubmitting(false);
       return;
     }
@@ -47,28 +37,25 @@ export default function CreatePostPage() {
         body: JSON.stringify({
           title: title,
           content: content,
-          category: category, //the category tag (eg defi)
+          category: category, 
           description 
         }),
       });
 
       if (!response.ok) {
         const ErrData = await response.json();
-        throw new Error(ErrData.message || "failed to create post :( ");
+        throw new Error(ErrData.message || "UPLOAD_FAILED");
       }
 
       const newCreatedPost = await response.json();
-
-
-      toast.success("post creeeeated successfully!");
+      toast.success("LOG_ENTRY_CREATED");
       navigate(`/post/${newCreatedPost.slug}`);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
-        toast.error(err.message); //for extra visibility
+        toast.error(err.message); 
       } else {
-        //for any other weird error fallback
-        setError("An unexpected error occurred");
+        setError("UNKNOWN_SYSTEM_ERROR");
       }
     } finally {
       setIsSubmitting(false);
@@ -76,70 +63,81 @@ export default function CreatePostPage() {
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
-      <h1 className="text-2xl font-bold mb-6 text-center">
-        write a new article
-      </h1>
+    <div className="max-w-3xl mx-auto mt-12 p-8 bg-black border border-white/20">
+      
+      <div className="mb-8 border-b border-white/10 pb-4">
+          <h1 className="text-2xl font-mono font-bold text-white uppercase tracking-tight">
+            <span className="text-acid mr-2">&gt;</span> 
+            INITIATE_NEW_LOG
+          </h1>
+      </div>
 
       {error && (
-        <div className="bg-red-100 text-red-700 p-3 rounded mb-4 text-sm">
-          {error}
+        <div className="bg-red-900/20 border border-red-500/50 text-red-500 p-4 mb-6 font-mono text-sm">
+          [ERROR]: {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        {/* title input */}
+      <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+        
+        {/* TITLE INPUT */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            TITLE
+          <label className="block text-xs font-bold text-acid mb-2 font-mono tracking-widest">
+            // LOG_TITLE
           </label>
           <input
             type="text"
             required
-            className="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-500"
-            placeholder="choose a cool title "
+            className="w-full p-3 bg-black text-white border border-white/20 rounded-none focus:border-acid focus:outline-none font-mono placeholder:text-gray-700 transition-colors"
+            placeholder="ENTER_TITLE_HERE..."
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
-        <div className="">
-          <label className="block font-retro text-xs mb-2">
-            DESCRIPTION
+
+        {/* DESCRIPTION INPUT */}
+        <div>
+          <label className="block text-xs font-bold text-acid mb-2 font-mono tracking-widest">
+            // BRIEFING (MAX 200)
           </label>
           <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          maxLength={200}
-          rows={3}
-          className=" w-full border-4 border-black p-4 font-reading text-gray-800 focus:outline-none focus:bg-brand-peach resize-none"
-          placeholder="give an idea of what this is about"
-
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            maxLength={200}
+            rows={3}
+            className="w-full p-3 bg-black text-white border border-white/20 rounded-none focus:border-acid focus:outline-none font-mono placeholder:text-gray-700 resize-none transition-colors"
+            placeholder="ENTER_BRIEF_DESCRIPTION..."
           />
-          {/* character-count helper */}
-          <div className="text-right font-retro text-[10px] text-gray-500 mt-1">
-            {description.length}
+          <div className="text-right font-mono text-xs text-gray-600 mt-1">
+            CHARS: {description.length}/200
           </div>
         </div>
 
-        {/* //select category type (dropdown) (we have the state logic in this file and not in the component because components with fixed state logic cannot be used everywhere - they become rigid)*/}
+        {/* CATEGORY SELECTOR */}
         <CategorySelectDropdown value={category} onChange={setCategory} />
 
-
-        {/* //content input// */}
+        {/* MAIN EDITOR */}
         <div className="min-h-[400px]">
+          <label className="block text-xs font-bold text-acid mb-2 font-mono tracking-widest">
+             // MAIN_CONTENT
+          </label>
           <Editor
-          content={content}
-          onChange = {(html) => setContent(html)}
+            content={content}
+            onChange={(html) => setContent(html)}
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 disabled:bg-gray-400"
-        >
-          {isSubmitting ? "publishing, plsss wait :) " : "publish article"}
-        </button>
+        {/* SUBMIT BUTTON */}
+        <div className="pt-6 border-t border-white/10">
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-acid text-black font-mono font-bold py-4 hover:bg-white transition-colors disabled:bg-gray-800 disabled:text-gray-500 uppercase tracking-widest"
+            >
+              {isSubmitting ? "[ UPLOADING_DATA... ]" : "[ PUBLISH_LOG_ENTRY ]"}
+            </button>
+        </div>
+
       </form>
     </div>
   );

@@ -1,10 +1,7 @@
-//this will handle the look of the content (editor)
-
 import { useEditor, EditorContent, type Editor as CoreEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
 import { useRef } from 'react'
-
 
 interface EditorProps {
     content: string;
@@ -12,125 +9,63 @@ interface EditorProps {
     editable?: boolean
 }
 
-//the menuBar component
+//  THE CYBER MENU BAR --
 const MenuBar = ( {editor} : {editor : CoreEditor | null} ) => {
+    const fileInputRef = useRef<HTMLInputElement>(null)
 
-    //creating a reference for the hidden file input
-    const fileInputRef = useRef<HTMLInputElement>(null) //this is simply "useRef(null)", but in typescript
+    if(!editor) return null
 
-
-    if(!editor) {
-        return null
-    }
-    // helper to apply styles to the buttons - 
+    // Cyber Button Styles(helper)
     const btnClass = (isActive: boolean) => 
-        `px-3 py-1.5 mr-2 text-sm font-bold border-2 border-black transition-all
+        `px-3 py-1.5 mr-2 text-sm font-mono font-bold border transition-all duration-200
         ${isActive
-            ? 'bg-brand-primary text-white shadow-none translate-y-1' // Active: Pressed down
-            : 'bg-white text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[1px] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] hover:bg-brand-peach' // Inactive: 3D Pop
+            ? 'bg-acid text-black border-acid shadow-[0_0_10px_rgba(204,255,0,0.5)]' // Active: Glowing Green
+            : 'bg-black text-gray-400 border-white/20 hover:border-acid hover:text-acid' // Inactive: Dim
         }`
 
-    //new fn to trigger the hidden file input
     const handleImageClick = ()=> {
-        fileInputRef.current?.click() //if the input exists, click it.
+        fileInputRef.current?.click()
     }
 
     const handleFileChange =(e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
         if(!file) return;
 
-        const reader = new FileReader() //create a fresh instance of a reader object using browser's inbuilt FileReader 
+        const reader = new FileReader() 
         reader.onload = (event) => {
             const base64String = event.target?.result as string
             if(base64String) {
-                //insert image at current cursor position
                 editor.chain().focus().setImage({src: base64String}).run()
             }
         }
-        reader.readAsDataURL(file) //"read this file and convert it into base64"
+        reader.readAsDataURL(file) 
     }
-    
-
 
     return(
-        <div className="border-b p-2 mb-2 flex gap-1 flex-wrap sticky top-0 bg-white z-10">
-            <button
-            type='button'
-                onClick={()=> editor.chain().focus().toggleBold().run()}
-                className={btnClass(editor.isActive('bold'))}
-                //button toggles its color between isActive being true or false
-            >
-                B
-            </button>
-            <button
-            type='button'
-            onClick={()=> editor.chain().focus().toggleItalic().run()}
-            className= {btnClass(editor.isActive('italic'))}
-            >
-                I
-            </button>
-            <button
-            type='button'
-            onClick={()=> editor.chain().focus().toggleHeading({level: 1}).run()}
-            className= {btnClass(editor.isActive("heading", {level: 1}))}
-            //button toggles its color depending on if H1 is active or not
-            >
-                H1
-            </button>
-            <button
-            type='button'
-            onClick={() => editor.chain().focus().toggleHeading({level: 2}).run()}
-            className= {btnClass(editor.isActive('heading', {level:2 }))}
-            >
-                H2
-            </button>
-            <button 
-            type='button'
-            onClick={()=> editor.chain().focus().toggleBlockquote().run()}
-            className= {btnClass(editor.isActive('blockquote'))}
-            >
-                " "
-            </button>
-            <button
-            type='button'
-            onClick={()=> editor.chain().focus().toggleBulletList().run()}
-            className= {btnClass(editor.isActive('bulletlist'))}
-            >
-                List
-            </button>
+        <div className="border-b border-white/10 p-2 mb-2 flex gap-1 flex-wrap sticky top-0 bg-black/90 backdrop-blur-sm z-10">
+            <button type='button' onClick={()=> editor.chain().focus().toggleBold().run()} className={btnClass(editor.isActive('bold'))}>B</button>
+            <button type='button' onClick={()=> editor.chain().focus().toggleItalic().run()} className={btnClass(editor.isActive('italic'))}>I</button>
+            <button type='button' onClick={()=> editor.chain().focus().toggleHeading({level: 1}).run()} className={btnClass(editor.isActive("heading", {level: 1}))}>H1</button>
+            <button type='button' onClick={()=> editor.chain().focus().toggleHeading({level: 2}).run()} className={btnClass(editor.isActive('heading', {level:2 }))}>H2</button>
+            <button type='button' onClick={()=> editor.chain().focus().toggleBlockquote().run()} className={btnClass(editor.isActive('blockquote'))}>""</button>
+            <button type='button' onClick={()=> editor.chain().focus().toggleBulletList().run()} className={btnClass(editor.isActive('bulletlist'))}>LIST</button>
 
-            <div className="w-px h-6 bg-gray-300 mx-2"></div>
+            <div className="w-px h-6 bg-white/20 mx-2"></div>
 
-            <button
-            type='button' //stating this because by default a button click will trigger a direct submit
-            onClick={handleImageClick} className={btnClass(false)}
-            >
-                upload🖼️
+            <button type='button' onClick={handleImageClick} className={btnClass(false)}>
+                [ UPLOAD_IMG ]
             </button>
             
-
-            {
-                //the hidden input that actually handles the file - 
-            }
-            <input
-                type='file'
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                className='hidden' //hides it from view
-                accept='image/*'
-            />
-
+            <input type='file' ref={fileInputRef} onChange={handleFileChange} className='hidden' accept='image/*' />
         </div>
     )
-
 }
 
-//the editor component (maint thing)
+// -MAIN EDITOR -
 export default function Editor({ content, onChange, editable = true} : EditorProps) {
 
-    //creating the editor instance
     const editor = useEditor( {
-        extensions: [ //extension defines the features in our editor - here the starterkit and image upload
+        extensions: [
             StarterKit,
             Image.configure({
                 inline: true,
@@ -138,28 +73,40 @@ export default function Editor({ content, onChange, editable = true} : EditorPro
             })
         ], 
         content : content,
-        editable: editable, //if editable false - users cannot edit ==> becomes a read only editor (great for onyly viewing purposes)
-        editorProps: { //controls the actual editor dom styling and features
+        editable: editable, 
+        editorProps: { 
             attributes: {
-                class: `prose prose-lg focus:outline-none min-h-[400px] max-w-none p-6 font-reading text-gray-800 leading-relaxed prose-headings:font-display prose-headings:uppercase prose-headings:text-black prose-p:mb-4  prose-img:border-4 prose-img:border-black prose-img:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] `
-                //tailwind typography and styles (like prose)
+                // tailwind dark mode prose confign
+                class: `
+                    prose prose-invert prose-lg max-w-none p-6 
+                    focus:outline-none min-h-[400px] 
+                    
+                    /* TEXT STYLES */
+                    font-sans text-gray-300 leading-relaxed 
+                    
+                    /* HEADINGS */
+                    prose-headings:font-mono prose-headings:text-acid prose-headings:uppercase
+                    
+                    /* PARAGRAPHS */
+                    prose-p:mb-4 
+                    
+                    /* IMAGES */
+                    prose-img:border-2 prose-img:border-acid/50 prose-img:rounded-none prose-img:shadow-[0_0_15px_rgba(204,255,0,0.1)]
+                    
+                    /* BLOCKQUOTES */
+                    prose-blockquote:border-l-acid prose-blockquote:bg-white/5 prose-blockquote:not-italic prose-blockquote:px-4
+                `
             },
         },
         onUpdate: ({ editor }) => {
-            onChange(editor.getHTML()) //send html back to parent
-        }, //(v imp) - whenever user types ==> editor updates ==> onUpdate fn fires ==> extracts html ==> sends it to parent component
+            onChange(editor.getHTML()) 
+        }, 
     })
 
     return(
-        <div className="border rounded-xl overflow-hidden bg-white shadow-sm">
+        <div className="border border-white/20 bg-black shadow-none mt-2">
             {editable && <MenuBar editor = {editor} />} 
             <EditorContent editor = {editor} />
-            
-            {
-                //shows the menu bar only if editable, alsways shows editor content and also passes the "editor" instance to both
-            }            
-
         </div>
     )
-
 }

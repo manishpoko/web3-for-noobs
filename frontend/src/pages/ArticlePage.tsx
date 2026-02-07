@@ -20,11 +20,9 @@ interface SinglePostType {
 function getUserIdFromToken() {
   const token = localStorage.getItem("token");
   if (!token) return null;
-
   try {
     const payload = token.split(".")[1];
-    const decoded = JSON.parse(atob(payload)); //atob decodes the weird payload into readable message
-
+    const decoded = JSON.parse(atob(payload)); 
     return decoded.userId;
   } catch (err) {
     return err;
@@ -32,146 +30,143 @@ function getUserIdFromToken() {
 }
 
 export default function ArticlePage() {
-  const params = useParams();
-  console.log("URL Params:", params); // Check the console! Is it { slug: ... } or { id: ... }?
-
-  const { slug } = useParams(); //grABS THE slug (previously it was id) FROM THE URL
+  const { slug } = useParams(); 
   const navigate = useNavigate();
+  const currentUserId = getUserIdFromToken(); 
 
-  const currentUserId = getUserIdFromToken(); //storing the current user id
-
-  //using rect-query for data fetching and other functions, instead of useEffect etc
   const { isPending, error, data } = useQuery<SinglePostType>({
     queryKey: ["post", slug],
-
     queryFn: async () => {
       const response = await fetch(`${API_BASE_URL}/posts/${slug}`);
       if (!response.ok) {
-        throw new Error("error fetching the article");
+        throw new Error("Article not found");
       }
       return await response.json();
     },
-    retry: false, //dont retry if its a 404 (no use)
+    retry: false,
   });
+
   if (isPending) {
     return (
-      <div className="text-center mt-20 font-retro text-xl animate-pulse text-brand-primary">
-        loading data...
+      <div className="flex justify-center mt-20">
+        <div className="text-acid animate-pulse font-mono text-xl tracking-widest">
+          &gt; ACCESSING_DATABASE...
+        </div>
       </div>
     );
   }
+  
   if (error) {
-    return <div className="text-center p-10 text-red-500">{error.message}</div>;
+    return (
+      <div className="p-8 border border-red-500/50 bg-black text-red-500 font-mono text-center">
+        [ERROR]: {error.message}
+      </div>
+    );
   }
 
-  const post = data;
+  const post = data!;
 
-  //function to delete a post(only by the post author and not anyone else )
   const handleDelete = async () => {
-    if (!confirm("are you sure you want to delete this post?")) return; //this means if the user doesnt confirm to delete post, returrn
+    if (!confirm("CONFIRM DELETION: This action cannot be undone.")) return; 
 
     try {
       const token = localStorage.getItem("token");
-
       const res = await fetch(`${API_BASE_URL}/posts/${post?.postId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
-        toast.success("post deleted!");
+        toast.success("LOG_ENTRY_DELETED");
         navigate("/");
       } else {
-        toast.error("failed to delete");
+        toast.error("DELETION_FAILED");
       }
     } catch (err) {
       console.error(err);
     }
   };
 
-  const isOwner = currentUserId === post.authorId; //returns true if currenUserId matches with the id of the author(from the backend)
+  const isOwner = currentUserId === post.authorId; 
 
   return (
-    <div className="max-w-4xl lg:max-w-6xl mx-auto p-6 bg-white shadow-lg rounded-xl mt-10">
-      {/* //header here// */}
-      <div className="border-b pb-4 mb-6">
-        <h1 className="text-4xl font-bold text-gray-900 mb-2 text-center">
+    <div className="max-w-4xl mx-auto px-6 py-12">
+      
+      {/* HEADER SECTION */}
+      <div className="border-b border-white/20 pb-8 mb-12">
+        {/* Category Tag */}
+        {post.category && (
+           <div className="mb-6 flex">
+             <span className="bg-acid text-black text-xs font-bold font-mono px-3 py-1 uppercase tracking-widest">
+               /// {post.category}
+             </span>
+           </div>
+        )}
+        
+        {/* Title */}
+        <h1 className="text-4xl md:text-6xl font-bold font-mono text-white mb-8 leading-tight tracking-tight">
           {post.title}
         </h1>
-        <div className="flex justify-center items-center text-gray-500 text-sm">
-          <span className="font-semibold text-indigo-600 mr-2">
-            by {post.author?.username || "unknown author"}
-          </span>
-          <span className="mx-2">•</span>
-          <span className="">
-            {new Date(post.createdAt).toLocaleDateString()}
-          </span>
+        
+        {/* Metadata Bar */}
+        <div className="flex flex-wrap items-center gap-6 text-sm font-mono text-gray-400 border-l-2 border-acid pl-4">
+          <div className="flex items-center gap-2">
+            <span className="text-acid">AUTH:</span>
+            <span className="text-white uppercase">{post.author?.username || "UNKNOWN"}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-acid">DATE:</span>
+            <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+          </div>
         </div>
       </div>
-      {/* //shows only if isOwner is true(i.e. if the owner wants to edit or delete) */}
+
+      {/* ADMIN ACTIONS */}
       {isOwner && (
-        <div className="flex gap-2">
+        <div className="flex gap-4 mb-12">
           <button
             onClick={() => navigate(`/edit/${post.postId}`)}
-            className="bg-blue-100 text-blue-700 px-3 py-1 rounded hover:bg-blue-200 text-sm font-bold"
+            className="px-6 py-2 bg-black border border-white/20 text-white font-mono text-sm hover:border-acid hover:text-acid transition-colors"
           >
-            EDIT
+            [ EDIT_LOG ]
           </button>
           <button
             onClick={handleDelete}
-            className="bg-red-100 text-red-700 px-3 py-1 rounded hover:bg-red-200 text-sm font-bold"
+            className="px-6 py-2 bg-black border border-red-500/50 text-red-500 font-mono text-sm hover:bg-red-500 hover:text-black transition-colors"
           >
-            DELETE
+            [ DELETE_LOG ]
           </button>
         </div>
       )}
-      {/* //content section// */}
+
+      {/* CONTENT READER */}
       <div
         className="
-      // layout - center the block:-
-      prose prose-lg md:prose-xl max-w-none
-       mx-auto
-
-       mt-12
-      
-      //typography(minimalist for content)
-      font-reading //the clean outfit font we imported
-      text-gray-800
-      leading-relaxed //this increases line height
-      tracking-wide //more gap b/w letters
-
-      //headings with the retro theme
-      prose-headings:font-display
-      prose-headings:text-black
-      prose-headings:uppercase
-      prose-headings:mt-12
-      prose-headings:mb-
-
-      //paragraphs clean and readable
-      prose-p:mb-6 
-
-      // links(minimalist but with brand theme)
-      prose-a:text-black prose-a:font-semibold prose-a:no-underline
-      prose-a:border-b-2 prose-a:border-brand-primary
-      hover:prose-a:bg-brand-primary hover:prose-a:text-white prose-a:transition-all
-
-      //blockquotes(editorial style)
-      prose-blockquote:border-l-4 prose-blockquote:border-brand-accent
-      prose-blockquote:bg-gray-500 prose-blockquote:p-6 prose-blockquote:italic
-      prose-blockquote:rounded-r-lg
-
-      //images(retro border, but minimalistic)
-      prose-img:rounded-md prose-img:border-2 prose-img:border-black
-      prose-img:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
-      prose-img:mx-auto
-      
-      "
-        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }}
-      >
-        {/* 
-          -dangerourslySetInnerHTMl is to tell react to treat the entire chunk as a html rather than normal plaintext.
+          prose prose-lg prose-invert max-w-none
           
-          -the domPurify.sanitize() is the cleaner that strips out any maliciou code from the text (eg a hacker script) */}
-      </div>
+          /* TEXT BASE */
+          font-sans text-gray-300 leading-relaxed
+          
+          /* HEADINGS */
+          prose-headings:font-mono prose-headings:text-white prose-headings:uppercase prose-headings:tracking-tight
+          
+          /* LINKS (Acid Green) */
+          prose-a:text-acid prose-a:no-underline hover:prose-a:underline
+          
+          /* CODE BLOCKS */
+          prose-code:text-acid prose-code:font-mono prose-code:bg-white/5 prose-code:px-1 prose-code:before:content-none prose-code:after:content-none
+          prose-pre:bg-black prose-pre:border prose-pre:border-white/10
+          
+          /* BLOCKQUOTES */
+          prose-blockquote:border-l-acid prose-blockquote:bg-white/5 prose-blockquote:not-italic prose-blockquote:px-6 prose-blockquote:py-4 prose-blockquote:text-gray-400
+          
+          /* IMAGES */
+          prose-img:border prose-img:border-white/10 prose-img:rounded-none
+          
+          /* LISTS */
+          prose-li:marker:text-acid
+        "
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }}
+      />
     </div>
   );
 }
