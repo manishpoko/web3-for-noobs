@@ -29,7 +29,7 @@ export async function createPost(input: PostInput) {
       where: { slug: finalSlug },
     })
   ) {
-    finalSlug = `${baseSlug}-${count}`; //making it unique by adding a suffix "-1"; this is done to remove duplicate slugs//
+    finalSlug = `${baseSlug}-${count}`; //making it unique by adding a suffix (eg- hello-1, then hello-2, etc); this is done to remove duplicate slugs//
     count++;
     //this loop goes on until findunique returns null (no similar slug exists)
   }
