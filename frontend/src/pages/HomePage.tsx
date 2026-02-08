@@ -9,7 +9,7 @@ export default function HomePage() {
         {/* HERO SECTION */}
         <div className="mb-16 text-center">
           <h1 className="text-4xl md:text-6xl font-mono font-bold text-white mb-4 tracking-tight">
-            PICK YOUR PATH, <span className="text-acid">MR. NOOB.</span>
+            IT'S OKAY, <span className="text-acid">EVERYONE'S A NOOB.</span>
           </h1>
           <p className="text-lg font-mono text-textMuted">
             Select a category below to initiate your learning sequence. // 0x1337

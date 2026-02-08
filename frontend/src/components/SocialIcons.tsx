@@ -6,8 +6,8 @@ export function Linkedin(props: ComponentProps<"svg">) {
     <svg 
       xmlns="http://www.w3.org/2000/svg" 
       viewBox="0 0 24 24" 
-      width="24" 
-      height="24" 
+      width="20" 
+      height="20" 
       fill="none" 
       stroke="currentColor" 
       strokeLinecap="round" 
@@ -28,8 +28,8 @@ export function Twitter(props: ComponentProps<"svg">) {
     <svg 
       xmlns="http://www.w3.org/2000/svg" 
       viewBox="0 0 24 24" 
-      width="24" 
-      height="24" 
+      width="20" 
+      height="20" 
       fill="none" 
       stroke="currentColor" 
       strokeLinecap="round" 
@@ -48,8 +48,8 @@ export function Github(props: ComponentProps<"svg">) {
     <svg 
       xmlns="http://www.w3.org/2000/svg" 
       viewBox="0 0 24 24" 
-      width="24" 
-      height="24" 
+      width="20" 
+      height="20" 
       fill="none" 
       stroke="currentColor" 
       strokeLinecap="round" 
@@ -68,8 +68,8 @@ export function Substack(props: ComponentProps<"svg">) {
     <svg 
       xmlns="http://www.w3.org/2000/svg" 
       viewBox="0 0 24 24" 
-      width="24" 
-      height="24" 
+      width="18" 
+      height="18" 
       fill="currentColor" 
       stroke="none" 
       {...props}
