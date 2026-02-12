@@ -15,7 +15,7 @@ export default function CreatePostPage() {
   const [error, setError] = useState("");
   const [category, setCategory] = useState("defi"); // Default to defi or empty
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError("");
