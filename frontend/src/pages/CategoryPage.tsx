@@ -11,6 +11,9 @@ export interface LocalPostType {
   slug: string
 }
 
+//debugging - 
+console.log(import.meta.env.VITE_API_URL);
+
 const CategoryPage = () => {
   const params = useParams(); 
 

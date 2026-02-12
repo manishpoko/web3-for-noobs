@@ -11,7 +11,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3001', // Points to the Nodejs backend we made separately 
+        target: 'http://localhost:3000', // Points to the Nodejs backend we made separately 
         changeOrigin: true,
       }
     }
