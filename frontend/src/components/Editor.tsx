@@ -86,7 +86,7 @@ const MenuBar = ({ editor }: { editor: CoreEditor | null }) => {
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={btnClass(editor.isActive("bulletlist"))}
+        className={btnClass(editor.isActive("bulletList"))}
       >
         LIST
       </button>
