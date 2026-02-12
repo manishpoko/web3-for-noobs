@@ -8,6 +8,8 @@ export default defineConfig({
   plugins: [react(),
     tailwindcss(),
   ],
+  // base is the fix for mime-type error in console-
+  base: '/',
   server: {
     proxy: {
       '/api': {
