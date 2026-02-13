@@ -20,6 +20,7 @@ const CategoryPage = () => {
   const { isPending, error, data } = useQuery <LocalPostType[]>({
     queryKey: ['posts', params.category],
     queryFn: async() => {
+
       const response  = await fetch(`${API_BASE_URL}/posts?category=${params.category}`);
       if(!response.ok){
         throw new Error(`Server Error: ${response.status}`)
