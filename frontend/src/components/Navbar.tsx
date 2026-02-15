@@ -19,7 +19,7 @@ export default function Navbar() {
         <Link to="/" className="flex items-center gap-3 group">
           <div className="w-3 h-6 bg-acid animate-pulse"></div> 
           <h1 className="text-2xl font-mono font-bold tracking-tighter text-white">
-            WEB3<span className="text-acid">_FOR_NOOBS</span>
+            WEB3_FOR_<span className="text-acid">NOOBS</span>
           </h1>
         </Link>
 
