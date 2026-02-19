@@ -7,7 +7,8 @@ export default function LatestArticleBox() {
   if (isPending) {
     // LOADING (Blinking cursor vibe)
     return (
-        <div className="p-8 border border-white/10 border-l-4 border-l-acid bg-black">
+        <div className="p-8 border border-white/10 border-l-4 border-l-acid bg-black"
+        >
             <div className="font-mono text-acid animate-pulse">
                 &gt; SEARCHING_DATABASE...
             </div>

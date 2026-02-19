@@ -14,14 +14,32 @@ export default function Navbar() {
     // Sharp edges, solid border, pure black background
     <nav className="sticky top-0 z-50 w-full bg-background border-b border-white/20">
       <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-        
         {/* LOGO: Monospace + Blinking Cursor */}
         <Link to="/" className="flex items-center gap-3 group">
-          <div className="w-3 h-6 bg-acid animate-pulse"></div> 
+          <div className="w-3 h-6 bg-acid animate-pulse"></div>
           <h1 className="text-2xl font-mono font-bold tracking-tighter text-white">
             WEB3_FOR_<span className="text-acid">NOOBS</span>
           </h1>
         </Link>
+
+        <div className="md:flex items-center gap-8">
+<a href="/#home" className="font-mono text-sm text-gray-400 hover:text-acid transition-colors">
+             // HOME
+           </a>
+
+           <a href="/#latest" className="font-mono text-sm text-gray-400 hover:text-acid transition-colors">
+            // LATEST
+           </a>
+           
+           <a href="/#paths" className="font-mono text-sm text-gray-400 hover:text-acid transition-colors">
+            // PATHS
+           </a>
+           <a href="/#about" className="font-mono text-sm text-gray-400 hover:text-acid transition-colors">
+            // ABOUT
+           </a>
+
+        </div>
+
 
         {/* RIGHT ACTIONS: Terminal style links */}
         <div className="flex items-center gap-8">
@@ -43,7 +61,7 @@ export default function Navbar() {
               LOGOUT
             </button>
           ) : (
-             <div className="w-4"></div> 
+            <div className="w-4"></div>
           )}
         </div>
       </div>

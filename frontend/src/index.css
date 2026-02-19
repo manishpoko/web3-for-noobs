@@ -2,6 +2,10 @@
 
 @import "tailwindcss";
 
+html{
+  scroll-behavior: smooth;
+}
+
 /* ✅ TAILWIND V4 CONFIGURATION */
 /* We define the variables here, and Tailwind automatically creates utilities like 'text-acid' */
 @theme {
