@@ -27,7 +27,7 @@ export default function LatestArticleBox() {
         <div className="h-px bg-white/20 flex-grow"></div>
         <h2 className="text-xl font-mono font-bold text-white tracking-widest uppercase">
           <span className="text-acid mr-2">///</span> 
-          INCOMING_TRANSMISSIONS
+          FRESHLY MINTED!
         </h2>
         <div className="h-px bg-white/20 flex-grow"></div>
       </div>
