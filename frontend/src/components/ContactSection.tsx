@@ -1,21 +1,41 @@
-import { useState } from "react";
+//unfinished feature, not a priority right now. shall come back to this later.
 
-export default function ContactSection() {
-    const [feedbackMessage, setFeedbackMessage] = useState()
-    const handleSubmit = setFeedbackMessage()
 
-    return(
+// import { useState } from "react"
 
-    
-    <form action="">    
-    <input type="text" placeholder="your name here" />
-    <input type="text" placeholder="your email ID" />
-    <textarea id="textfeedback" rows={4} cols={3} placeholder="your message here"  />
 
-    <button onClick={handleSubmit}>SUBMIT</button>
 
-    </form>
+// export default function ContactSectionForm() {
+//     const [senderName, setSenderName] = useState()
+//     const [senderEmail, setSenderEmail] = useState()
+//     const [senderMessage, setSenderMessage] = useState("");
 
-    )
+//     function handleChange(e){
+//         e.preventDefault();
+//         setSenderMessage(e.target.value)
+//     }
 
-}   
+
+//     return(
+//         <form>
+            
+//             <label htmlFor="">YOUR NAME:
+//                 <input type="text" placeholder="enter name"/>
+//             </label>
+//             <label>EMAIL:
+//                 <input type="text" placeholder="enter your email" />
+//             </label>
+//             <label htmlFor="">MESSAGE:
+//                 <textarea
+//                     value = {senderMessage}
+//                     onChange={handleChange}
+//                 />
+
+//             </label>
+
+//             <button>SUBMIT</button>
+//         </form>
+
+//     )
+
+// }   
